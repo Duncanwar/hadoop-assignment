@@ -1,0 +1,15 @@
+11_job_hourly RC=0 ELAPSED=164s APP=application_1788022068759_0004
+12_job_daily RC=0 ELAPSED=170s APP=application_1788022068759_0005
+13_job_locations RC=0 ELAPSED=170s APP=application_1788022068759_0006
+14_job_revenue RC=0 ELAPSED=191s APP=application_1788022068759_0007
+15_job_payment RC=0 ELAPSED=194s APP=application_1788022068759_0008
+16_job_distance RC=0 ELAPSED=185s APP=application_1788022068759_0009
+17_job_routes RC=0 ELAPSED=196s APP=application_1788022068759_0010
+18_job_duration RC=0 ELAPSED=202s APP=application_1788022068759_0011
+19_job_anomaly RC=0 ELAPSED=194s APP=application_1788022068759_0012
+20_job_top10_revenue_zones RC=0 ELAPSED=26s APP=application_1788022068759_0013
+21_job_top10_zones_trips RC=0 ELAPSED=26s APP=application_1788022068759_0014
+22_job_bottom10_zones_trips RC=0 ELAPSED=27s APP=application_1788022068759_0015
+23_job_top20_routes_trips RC=0 ELAPSED=25s APP=application_1788022068759_0016
+24_job_top20_routes_revenue RC=0 ELAPSED=25s APP=application_1788022068759_0017
+ALL_JOBS_COMPLETE

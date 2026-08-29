@@ -1,0 +1,25 @@
+############ HDFS DIRECTORY CREATION ############
+++ hdfs dfs -mkdir -p /taxi_project/input/raw
+2026-08-29 16:57:21,169 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+++ hdfs dfs -mkdir -p /taxi_project/input/cleaned
+2026-08-29 16:57:23,024 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+++ hdfs dfs -mkdir -p /taxi_project/output/hourly
+2026-08-29 16:57:24,796 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+++ hdfs dfs -mkdir -p /taxi_project/output/locations
+2026-08-29 16:57:26,555 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+++ hdfs dfs -mkdir -p /taxi_project/output/revenue
+2026-08-29 16:57:28,303 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+++ hdfs dfs -mkdir -p /taxi_project/output/payment
+2026-08-29 16:57:30,057 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+++ hdfs dfs -mkdir -p /taxi_project/output/routes
+2026-08-29 16:57:31,784 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+++ hdfs dfs -mkdir -p /taxi_project/output/anomalies
+2026-08-29 16:57:33,696 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+++ hdfs dfs -mkdir -p /taxi_project/archive
+2026-08-29 16:57:35,343 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+++ set +x
+drwxr-xr-x   - root supergroup          0 2026-08-29 16:57 /taxi_project/archive
+drwxr-xr-x   - root supergroup          0 2026-08-29 16:57 /taxi_project/input
+drwxr-xr-x   - root supergroup          0 2026-08-29 16:57 /taxi_project/input/cleaned
+drwxr-xr-x   - root supergroup          0 2026-08-29 16:57 /taxi_project/input/raw
+drwxr-xr-x   - root supergroup          0 2026-08-29 16:57 /taxi_project/output

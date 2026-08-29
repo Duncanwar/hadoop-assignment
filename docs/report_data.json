@@ -1,0 +1,1588 @@
+{
+ "clean": {
+  "DISTINCT_RECORDS": 10493916,
+  "HEADER": 3,
+  "HIGH_FARE": 1,
+  "INPUT_RECORDS": 11077209,
+  "LONG_DISTANCE": 338,
+  "LONG_DURATION": 99,
+  "NEG_FARE": 81488,
+  "NONPOS_DISTANCE": 366554,
+  "NONPOS_DURATION": 134801,
+  "OUT_OF_WINDOW": 9,
+  "PASSENGER_FLAGGED": 2823332,
+  "VALID_RECORDS": 10493916,
+  "BAD_ID": 0,
+  "CONNECTION": 0,
+  "IO_ERROR": 0,
+  "WRONG_LENGTH": 0,
+  "WRONG_MAP": 0,
+  "WRONG_REDUCE": 0
+ },
+ "jobs": [
+  {
+   "log": "10_job_clean",
+   "name": "01-DataCleaning-Validate-and-Deduplicate",
+   "app": "application_1788022068759_0003",
+   "job": "job_1788022068759_0003",
+   "elapsed": 1503,
+   "map_in": 11077209,
+   "map_out": 10493916,
+   "comb_in": 0,
+   "comb_out": 0,
+   "red_in": 10493916,
+   "red_out": 10493916,
+   "maps": 16,
+   "reds": 2,
+   "cpu_ms": 572720,
+   "hdfs_read": 1154028840,
+   "hdfs_written": 1103843151,
+   "peak_map_mem": 665493504,
+   "peak_red_mem": 804352000,
+   "spilled": 31481748,
+   "map_out_bytes": 1114337067,
+   "map_out_mat": 1135325007
+  },
+  {
+   "log": "11_job_hourly",
+   "name": "02-HourlyTaxiDemand",
+   "app": "application_1788022068759_0004",
+   "job": "job_1788022068759_0004",
+   "elapsed": 164,
+   "map_in": 10493916,
+   "map_out": 10493916,
+   "comb_in": 10493916,
+   "comb_out": 240,
+   "red_in": 240,
+   "red_out": 24,
+   "maps": 11,
+   "reds": 1,
+   "cpu_ms": 187340,
+   "hdfs_read": 1104892837,
+   "hdfs_written": 238,
+   "peak_map_mem": 350883840,
+   "peak_red_mem": 195960832,
+   "spilled": 480,
+   "map_out_bytes": 52469580,
+   "map_out_mat": 2651
+  },
+  {
+   "log": "12_job_daily",
+   "name": "03-DailyDemandWeekdayWeekend",
+   "app": "application_1788022068759_0005",
+   "job": "job_1788022068759_0005",
+   "elapsed": 170,
+   "map_in": 10493916,
+   "map_out": 10493916,
+   "comb_in": 10493916,
+   "comb_out": 70,
+   "red_in": 70,
+   "red_out": 7,
+   "maps": 11,
+   "reds": 1,
+   "cpu_ms": 195780,
+   "hdfs_read": 1104892837,
+   "hdfs_written": 183,
+   "peak_map_mem": 692396032,
+   "peak_red_mem": 223186944,
+   "spilled": 140,
+   "map_out_bytes": 212000178,
+   "map_out_mat": 1939
+  },
+  {
+   "log": "13_job_locations",
+   "name": "04-PickupLocationTripCounts",
+   "app": "application_1788022068759_0006",
+   "job": "job_1788022068759_0006",
+   "elapsed": 170,
+   "map_in": 10493916,
+   "map_out": 10493916,
+   "comb_in": 10493916,
+   "comb_out": 2563,
+   "red_in": 2563,
+   "red_out": 262,
+   "maps": 10,
+   "reds": 1,
+   "cpu_ms": 196830,
+   "hdfs_read": 1104892837,
+   "hdfs_written": 2396,
+   "peak_map_mem": 361492480,
+   "peak_red_mem": 208375808,
+   "spilled": 5126,
+   "map_out_bytes": 62963496,
+   "map_out_mat": 25872
+  },
+  {
+   "log": "14_job_revenue",
+   "name": "05-RevenueByPickupZone-STAGE1",
+   "app": "application_1788022068759_0007",
+   "job": "job_1788022068759_0007",
+   "elapsed": 191,
+   "map_in": 10493916,
+   "map_out": 10493916,
+   "comb_in": 10493916,
+   "comb_out": 2563,
+   "red_in": 2563,
+   "red_out": 262,
+   "maps": 11,
+   "reds": 1,
+   "cpu_ms": 227070,
+   "hdfs_read": 1104892837,
+   "hdfs_written": 15064,
+   "peak_map_mem": 372068352,
+   "peak_red_mem": 210677760,
+   "spilled": 5126,
+   "map_out_bytes": 345381986,
+   "map_out_mat": 131880
+  },
+  {
+   "log": "15_job_payment",
+   "name": "06-PaymentMethodAnalysis",
+   "app": "application_1788022068759_0008",
+   "job": "job_1788022068759_0008",
+   "elapsed": 194,
+   "map_in": 10493916,
+   "map_out": 10493916,
+   "comb_in": 10493916,
+   "comb_out": 50,
+   "red_in": 50,
+   "red_out": 5,
+   "maps": 11,
+   "reds": 1,
+   "cpu_ms": 231960,
+   "hdfs_read": 1104892837,
+   "hdfs_written": 307,
+   "peak_map_mem": 461377536,
+   "peak_red_mem": 195473408,
+   "spilled": 100,
+   "map_out_bytes": 397200474,
+   "map_out_mat": 3369
+  },
+  {
+   "log": "16_job_distance",
+   "name": "07-DistanceBasedFareAnalysis",
+   "app": "application_1788022068759_0009",
+   "job": "job_1788022068759_0009",
+   "elapsed": 185,
+   "map_in": 10493916,
+   "map_out": 10493916,
+   "comb_in": 10493916,
+   "comb_out": 50,
+   "red_in": 50,
+   "red_out": 5,
+   "maps": 10,
+   "reds": 1,
+   "cpu_ms": 226630,
+   "hdfs_read": 1104892837,
+   "hdfs_written": 339,
+   "peak_map_mem": 362856448,
+   "peak_red_mem": 205524992,
+   "spilled": 100,
+   "map_out_bytes": 397018861,
+   "map_out_mat": 3698
+  },
+  {
+   "log": "17_job_routes",
+   "name": "08-BusiestPickupDropoffRoutes",
+   "app": "application_1788022068759_0010",
+   "job": "job_1788022068759_0010",
+   "elapsed": 196,
+   "map_in": 10493916,
+   "map_out": 10493916,
+   "comb_in": 10493916,
+   "comb_out": 254422,
+   "red_in": 254422,
+   "red_out": 47937,
+   "maps": 10,
+   "reds": 2,
+   "cpu_ms": 243400,
+   "hdfs_read": 1104892837,
+   "hdfs_written": 1753306,
+   "peak_map_mem": 379539456,
+   "peak_red_mem": 210776064,
+   "spilled": 508844,
+   "map_out_bytes": 291266960,
+   "map_out_mat": 9128756
+  },
+  {
+   "log": "18_job_duration",
+   "name": "09-TripDurationAnalysis",
+   "app": "application_1788022068759_0011",
+   "job": "job_1788022068759_0011",
+   "elapsed": 202,
+   "map_in": 10493916,
+   "map_out": 10493916,
+   "comb_in": 10493916,
+   "comb_out": 60,
+   "red_in": 60,
+   "red_out": 6,
+   "maps": 11,
+   "reds": 1,
+   "cpu_ms": 240910,
+   "hdfs_read": 1104892837,
+   "hdfs_written": 412,
+   "peak_map_mem": 693915648,
+   "peak_red_mem": 199282688,
+   "spilled": 120,
+   "map_out_bytes": 421025797,
+   "map_out_mat": 4508
+  },
+  {
+   "log": "19_job_anomaly",
+   "name": "10-AnomalyDetection-RawFeed",
+   "app": "application_1788022068759_0012",
+   "job": "job_1788022068759_0012",
+   "elapsed": 194,
+   "map_in": 11077209,
+   "map_out": 18392867,
+   "comb_in": 18392867,
+   "comb_out": 155,
+   "red_in": 155,
+   "red_out": 15,
+   "maps": 10,
+   "reds": 1,
+   "cpu_ms": 253280,
+   "hdfs_read": 1154028840,
+   "hdfs_written": 441,
+   "peak_map_mem": 685891584,
+   "peak_red_mem": 208584704,
+   "spilled": 382,
+   "map_out_bytes": 369855769,
+   "map_out_mat": 3656
+  },
+  {
+   "log": "20_job_top10_revenue_zones",
+   "name": "11-Top10RevenueZones-STAGE2",
+   "app": "application_1788022068759_0013",
+   "job": "job_1788022068759_0013",
+   "elapsed": 26,
+   "map_in": 262,
+   "map_out": 20,
+   "comb_in": 0,
+   "comb_out": 0,
+   "red_in": 20,
+   "red_out": 10,
+   "maps": 2,
+   "reds": 1,
+   "cpu_ms": 2480,
+   "hdfs_read": 22820,
+   "hdfs_written": 681,
+   "peak_map_mem": 287727616,
+   "peak_red_mem": 204541952,
+   "spilled": 40,
+   "map_out_bytes": 1714,
+   "map_out_mat": 1766
+  },
+  {
+   "log": "21_job_top10_zones_trips",
+   "name": "12-Top10PickupZonesByTrips",
+   "app": "application_1788022068759_0014",
+   "job": "job_1788022068759_0014",
+   "elapsed": 26,
+   "map_in": 262,
+   "map_out": 20,
+   "comb_in": 0,
+   "comb_out": 0,
+   "red_in": 20,
+   "red_out": 10,
+   "maps": 2,
+   "reds": 1,
+   "cpu_ms": 2400,
+   "hdfs_read": 3822,
+   "hdfs_written": 131,
+   "peak_map_mem": 300965888,
+   "peak_red_mem": 193736704,
+   "spilled": 40,
+   "map_out_bytes": 600,
+   "map_out_mat": 652
+  },
+  {
+   "log": "22_job_bottom10_zones_trips",
+   "name": "13-Bottom10PickupZonesByTrips",
+   "app": "application_1788022068759_0015",
+   "job": "job_1788022068759_0015",
+   "elapsed": 27,
+   "map_in": 262,
+   "map_out": 20,
+   "comb_in": 0,
+   "comb_out": 0,
+   "red_in": 20,
+   "red_out": 10,
+   "maps": 2,
+   "reds": 1,
+   "cpu_ms": 2420,
+   "hdfs_read": 3822,
+   "hdfs_written": 85,
+   "peak_map_mem": 299307008,
+   "peak_red_mem": 203694080,
+   "spilled": 40,
+   "map_out_bytes": 448,
+   "map_out_mat": 500
+  },
+  {
+   "log": "23_job_top20_routes_trips",
+   "name": "14-Top20RoutesByTripCount",
+   "app": "application_1788022068759_0016",
+   "job": "job_1788022068759_0016",
+   "elapsed": 25,
+   "map_in": 47937,
+   "map_out": 40,
+   "comb_in": 0,
+   "comb_out": 0,
+   "red_in": 40,
+   "red_out": 20,
+   "maps": 2,
+   "reds": 1,
+   "cpu_ms": 2610,
+   "hdfs_read": 1753528,
+   "hdfs_written": 881,
+   "peak_map_mem": 295194624,
+   "peak_red_mem": 193781760,
+   "spilled": 80,
+   "map_out_bytes": 2379,
+   "map_out_mat": 2471
+  },
+  {
+   "log": "24_job_top20_routes_revenue",
+   "name": "15-Top20RoutesByRevenue",
+   "app": "application_1788022068759_0017",
+   "job": "job_1788022068759_0017",
+   "elapsed": 25,
+   "map_in": 47937,
+   "map_out": 40,
+   "comb_in": 0,
+   "comb_out": 0,
+   "red_in": 40,
+   "red_out": 20,
+   "maps": 2,
+   "reds": 1,
+   "cpu_ms": 2520,
+   "hdfs_read": 1753528,
+   "hdfs_written": 895,
+   "peak_map_mem": 306585600,
+   "peak_red_mem": 204193792,
+   "spilled": 80,
+   "map_out_bytes": 2443,
+   "map_out_mat": 2535
+  },
+  {
+   "log": "25_job_revenue_bench",
+   "name": "BENCH-RevenueByPickupZone",
+   "app": "application_1788022068759_0018",
+   "job": "job_1788022068759_0018",
+   "elapsed": 192,
+   "map_in": 10493916,
+   "map_out": 10493916,
+   "comb_in": 10493916,
+   "comb_out": 2563,
+   "red_in": 2563,
+   "red_out": 262,
+   "maps": 10,
+   "reds": 1,
+   "cpu_ms": 233330,
+   "hdfs_read": 1104892837,
+   "hdfs_written": 15064,
+   "peak_map_mem": 361906176,
+   "peak_red_mem": 210972672,
+   "spilled": 5126,
+   "map_out_bytes": 345381986,
+   "map_out_mat": 131880
+  },
+  {
+   "log": "26_bench_hadoop_tiny",
+   "name": "BENCH-tiny-100k-records",
+   "app": "application_1788022068759_0019",
+   "job": "job_1788022068759_0019",
+   "elapsed": 32,
+   "map_in": 100000,
+   "map_out": 100000,
+   "comb_in": 100000,
+   "comb_out": 476,
+   "red_in": 476,
+   "red_out": 243,
+   "maps": 2,
+   "reds": 1,
+   "cpu_ms": 4730,
+   "hdfs_read": 10636808,
+   "hdfs_written": 12376,
+   "peak_map_mem": 319557632,
+   "peak_red_mem": 204484608,
+   "spilled": 952,
+   "map_out_bytes": 3289805,
+   "map_out_mat": 22338
+  },
+  {
+   "log": "27_bench_hadoop_half",
+   "name": "BENCH-half-5.2M-records",
+   "app": "application_1788022068759_0020",
+   "job": "job_1788022068759_0020",
+   "elapsed": 103,
+   "map_in": 5248143,
+   "map_out": 5248143,
+   "comb_in": 5248143,
+   "comb_out": 1281,
+   "red_in": 1281,
+   "red_out": 261,
+   "maps": 6,
+   "reds": 1,
+   "cpu_ms": 119810,
+   "hdfs_read": 552576879,
+   "hdfs_written": 14699,
+   "peak_map_mem": 449323008,
+   "peak_red_mem": 192532480,
+   "spilled": 2562,
+   "map_out_bytes": 172728048,
+   "map_out_mat": 65901
+  }
+ ],
+ "hourly": [
+  {
+   "hour": "00",
+   "trips": 324284
+  },
+  {
+   "hour": "01",
+   "trips": 218149
+  },
+  {
+   "hour": "02",
+   "trips": 144342
+  },
+  {
+   "hour": "03",
+   "trips": 108937
+  },
+  {
+   "hour": "04",
+   "trips": 89214
+  },
+  {
+   "hour": "05",
+   "trips": 98507
+  },
+  {
+   "hour": "06",
+   "trips": 189214
+  },
+  {
+   "hour": "07",
+   "trips": 334965
+  },
+  {
+   "hour": "08",
+   "trips": 439692
+  },
+  {
+   "hour": "09",
+   "trips": 451653
+  },
+  {
+   "hour": "10",
+   "trips": 453985
+  },
+  {
+   "hour": "11",
+   "trips": 483440
+  },
+  {
+   "hour": "12",
+   "trips": 522582
+  },
+  {
+   "hour": "13",
+   "trips": 543047
+  },
+  {
+   "hour": "14",
+   "trips": 580371
+  },
+  {
+   "hour": "15",
+   "trips": 613608
+  },
+  {
+   "hour": "16",
+   "trips": 593017
+  },
+  {
+   "hour": "17",
+   "trips": 661038
+  },
+  {
+   "hour": "18",
+   "trips": 696255
+  },
+  {
+   "hour": "19",
+   "trips": 638914
+  },
+  {
+   "hour": "20",
+   "trips": 638427
+  },
+  {
+   "hour": "21",
+   "trips": 646767
+  },
+  {
+   "hour": "22",
+   "trips": 580048
+  },
+  {
+   "hour": "23",
+   "trips": 443460
+  }
+ ],
+ "hourly_total": 10493916,
+ "hour_peak": [
+  "18",
+  696255
+ ],
+ "hour_low": [
+  "04",
+  89214
+ ],
+ "daily": [
+  {
+   "n": 1,
+   "day": "Monday",
+   "kind": "WEEKDAY",
+   "trips": 1184386
+  },
+  {
+   "n": 2,
+   "day": "Tuesday",
+   "kind": "WEEKDAY",
+   "trips": 1471091
+  },
+  {
+   "n": 3,
+   "day": "Wednesday",
+   "kind": "WEEKDAY",
+   "trips": 1445927
+  },
+  {
+   "n": 4,
+   "day": "Thursday",
+   "kind": "WEEKDAY",
+   "trips": 1676654
+  },
+  {
+   "n": 5,
+   "day": "Friday",
+   "kind": "WEEKDAY",
+   "trips": 1634391
+  },
+  {
+   "n": 6,
+   "day": "Saturday",
+   "kind": "WEEKEND",
+   "trips": 1726797
+  },
+  {
+   "n": 7,
+   "day": "Sunday",
+   "kind": "WEEKEND",
+   "trips": 1354670
+  }
+ ],
+ "weekday_trips": 7412449,
+ "weekend_trips": 3081467,
+ "weekday_avg": 1482489.8,
+ "weekend_avg": 1540733.5,
+ "day_peak": {
+  "n": 6,
+  "day": "Saturday",
+  "kind": "WEEKEND",
+  "trips": 1726797
+ },
+ "day_low": {
+  "n": 1,
+  "day": "Monday",
+  "kind": "WEEKDAY",
+  "trips": 1184386
+ },
+ "top10_zones": [
+  {
+   "rank": 1,
+   "id": 237,
+   "name": "Upper East Side South (Manhattan)",
+   "trips": 457903
+  },
+  {
+   "rank": 2,
+   "id": 236,
+   "name": "Upper East Side North (Manhattan)",
+   "trips": 427054
+  },
+  {
+   "rank": 3,
+   "id": 161,
+   "name": "Midtown Center (Manhattan)",
+   "trips": 426203
+  },
+  {
+   "rank": 4,
+   "id": 132,
+   "name": "JFK Airport (Queens)",
+   "trips": 405577
+  },
+  {
+   "rank": 5,
+   "id": 186,
+   "name": "Penn Station/Madison Sq West (Manhattan)",
+   "trips": 316687
+  },
+  {
+   "rank": 6,
+   "id": 162,
+   "name": "Midtown East (Manhattan)",
+   "trips": 315246
+  },
+  {
+   "rank": 7,
+   "id": 142,
+   "name": "Lincoln Square East (Manhattan)",
+   "trips": 301997
+  },
+  {
+   "rank": 8,
+   "id": 230,
+   "name": "Times Sq/Theatre District (Manhattan)",
+   "trips": 297306
+  },
+  {
+   "rank": 9,
+   "id": 79,
+   "name": "East Village (Manhattan)",
+   "trips": 286813
+  },
+  {
+   "rank": 10,
+   "id": 234,
+   "name": "Union Sq (Manhattan)",
+   "trips": 273350
+  }
+ ],
+ "bottom10_zones": [
+  {
+   "rank": 1,
+   "id": 105,
+   "name": "Governor's Island/Ellis Island/Liberty Island (Manhattan)",
+   "trips": 2
+  },
+  {
+   "rank": 2,
+   "id": 5,
+   "name": "Arden Heights (Staten Island)",
+   "trips": 4
+  },
+  {
+   "rank": 3,
+   "id": 44,
+   "name": "Charleston/Tottenville (Staten Island)",
+   "trips": 4
+  },
+  {
+   "rank": 4,
+   "id": 204,
+   "name": "Rossville/Woodrow (Staten Island)",
+   "trips": 4
+  },
+  {
+   "rank": 5,
+   "id": 99,
+   "name": "Freshkills Park (Staten Island)",
+   "trips": 5
+  },
+  {
+   "rank": 6,
+   "id": 199,
+   "name": "Rikers Island (Bronx)",
+   "trips": 6
+  },
+  {
+   "rank": 7,
+   "id": 84,
+   "name": "Eltingville/Annadale/Prince's Bay (Staten Island)",
+   "trips": 10
+  },
+  {
+   "rank": 8,
+   "id": 187,
+   "name": "Port Richmond (Staten Island)",
+   "trips": 23
+  },
+  {
+   "rank": 9,
+   "id": 2,
+   "name": "Jamaica Bay (Queens)",
+   "trips": 25
+  },
+  {
+   "rank": 10,
+   "id": 245,
+   "name": "West Brighton (Staten Island)",
+   "trips": 25
+  }
+ ],
+ "n_zones": 262,
+ "revenue_total": 316116721.15000004,
+ "fare_total": 224576418.84000006,
+ "tips_total": 29020953.849999998,
+ "top10_revenue": [
+  {
+   "rank": 1,
+   "id": 132,
+   "name": "JFK Airport (Queens)",
+   "trips": 405577,
+   "fare": 25062436.24,
+   "tips": 3733774.83,
+   "revenue": 32399670.15,
+   "avg_fare": 61.79,
+   "avg_tip": 9.21,
+   "avg_dist": 15.13,
+   "rev_per_mile": 5.28
+  },
+  {
+   "rank": 2,
+   "id": 138,
+   "name": "LaGuardia Airport (Queens)",
+   "trips": 247881,
+   "fare": 11028865.19,
+   "tips": 2365000.95,
+   "revenue": 17322967.97,
+   "avg_fare": 44.49,
+   "avg_tip": 9.54,
+   "avg_dist": 9.59,
+   "rev_per_mile": 7.29
+  },
+  {
+   "rank": 3,
+   "id": 161,
+   "name": "Midtown Center (Manhattan)",
+   "trips": 426203,
+   "fare": 7718487.88,
+   "tips": 1296039.44,
+   "revenue": 11655303.73,
+   "avg_fare": 18.11,
+   "avg_tip": 3.04,
+   "avg_dist": 2.29,
+   "rev_per_mile": 11.93
+  },
+  {
+   "rank": 4,
+   "id": 237,
+   "name": "Upper East Side South (Manhattan)",
+   "trips": 457903,
+   "fare": 6384811.85,
+   "tips": 1195742.12,
+   "revenue": 10011137.58,
+   "avg_fare": 13.94,
+   "avg_tip": 2.61,
+   "avg_dist": 1.8,
+   "rev_per_mile": 12.12
+  },
+  {
+   "rank": 5,
+   "id": 236,
+   "name": "Upper East Side North (Manhattan)",
+   "trips": 427054,
+   "fare": 6325023.45,
+   "tips": 1103861.11,
+   "revenue": 9636658.38,
+   "avg_fare": 14.81,
+   "avg_tip": 2.58,
+   "avg_dist": 2.0,
+   "rev_per_mile": 11.27
+  },
+  {
+   "rank": 6,
+   "id": 230,
+   "name": "Times Sq/Theatre District (Manhattan)",
+   "trips": 297306,
+   "fare": 6059460.3,
+   "tips": 938556.93,
+   "revenue": 8924065.32,
+   "avg_fare": 20.38,
+   "avg_tip": 3.16,
+   "avg_dist": 2.85,
+   "rev_per_mile": 10.52
+  },
+  {
+   "rank": 7,
+   "id": 186,
+   "name": "Penn Station/Madison Sq West (Manhattan)",
+   "trips": 316687,
+   "fare": 5529290.69,
+   "tips": 983028.85,
+   "revenue": 8338171.06,
+   "avg_fare": 17.46,
+   "avg_tip": 3.1,
+   "avg_dist": 2.3,
+   "rev_per_mile": 11.47
+  },
+  {
+   "rank": 8,
+   "id": 162,
+   "name": "Midtown East (Manhattan)",
+   "trips": 315246,
+   "fare": 5349198.86,
+   "tips": 960796.5,
+   "revenue": 8222422.36,
+   "avg_fare": 16.97,
+   "avg_tip": 3.05,
+   "avg_dist": 2.25,
+   "rev_per_mile": 11.62
+  },
+  {
+   "rank": 9,
+   "id": 79,
+   "name": "East Village (Manhattan)",
+   "trips": 286813,
+   "fare": 5253198.61,
+   "tips": 562869.33,
+   "revenue": 7496084.45,
+   "avg_fare": 18.32,
+   "avg_tip": 1.96,
+   "avg_dist": 2.52,
+   "rev_per_mile": 10.39
+  },
+  {
+   "rank": 10,
+   "id": 68,
+   "name": "East Chelsea (Manhattan)",
+   "trips": 259903,
+   "fare": 4958104.35,
+   "tips": 734604.95,
+   "revenue": 7265021.91,
+   "avg_fare": 19.08,
+   "avg_tip": 2.83,
+   "avg_dist": 2.58,
+   "rev_per_mile": 10.85
+  }
+ ],
+ "revenue_sample": [
+  {
+   "id": 1,
+   "name": "Newark Airport (EWR)",
+   "trips": 327,
+   "revenue": 36072.89
+  },
+  {
+   "id": 2,
+   "name": "Jamaica Bay (Queens)",
+   "trips": 25,
+   "revenue": 1450.35
+  },
+  {
+   "id": 3,
+   "name": "Allerton/Pelham Gardens (Bronx)",
+   "trips": 1364,
+   "revenue": 53627.58
+  },
+  {
+   "id": 4,
+   "name": "Alphabet City (Manhattan)",
+   "trips": 44820,
+   "revenue": 1249437.44
+  },
+  {
+   "id": 5,
+   "name": "Arden Heights (Staten Island)",
+   "trips": 4,
+   "revenue": 115.02
+  },
+  {
+   "id": 6,
+   "name": "Arrochar/Fort Wadsworth (Staten Island)",
+   "trips": 262,
+   "revenue": 9304.8
+  }
+ ],
+ "payment": [
+  {
+   "code": 1,
+   "label": "CreditCard",
+   "trips": 6739968,
+   "revenue": 199656180.14,
+   "avg_fare": 19.55,
+   "avg_tip": 4.13,
+   "avg_total": 29.62,
+   "avg_dist": 3.43,
+   "tip_rate": 21.14,
+   "pct_tipped": 90.42
+  },
+  {
+   "code": 0,
+   "label": "FlexFare",
+   "trips": 2784548,
+   "revenue": 91838494.62,
+   "avg_fare": 26.48,
+   "avg_tip": 0.42,
+   "avg_total": 32.98,
+   "avg_dist": 3.63,
+   "tip_rate": 1.58,
+   "pct_tipped": 8.86
+  },
+  {
+   "code": 2,
+   "label": "Cash",
+   "trips": 883162,
+   "revenue": 22234860.42,
+   "avg_fare": 19.5,
+   "avg_tip": 0.0,
+   "avg_total": 25.18,
+   "avg_dist": 3.39,
+   "tip_rate": 0.0,
+   "pct_tipped": 0.01
+  },
+  {
+   "code": 4,
+   "label": "Dispute",
+   "trips": 62690,
+   "revenue": 1811678.01,
+   "avg_fare": 22.76,
+   "avg_tip": 0.0,
+   "avg_total": 28.9,
+   "avg_dist": 4.01,
+   "tip_rate": 0.02,
+   "pct_tipped": 0.03
+  },
+  {
+   "code": 3,
+   "label": "NoCharge",
+   "trips": 23548,
+   "revenue": 575507.96,
+   "avg_fare": 18.73,
+   "avg_tip": 0.0,
+   "avg_total": 24.44,
+   "avg_dist": 3.08,
+   "tip_rate": 0.0,
+   "pct_tipped": 0.02
+  }
+ ],
+ "payment_revenue_total": 316116721.15,
+ "distance": [
+  {
+   "band": "0-2mi",
+   "trips": 5534930,
+   "revenue": 106227297.94,
+   "avg_fare": 11.9,
+   "avg_total": 19.19,
+   "avg_dist": 1.13,
+   "avg_tip": 2.04,
+   "avg_min": 10.06,
+   "fare_per_mile": 10.55,
+   "mph": 6.73
+  },
+  {
+   "band": "2-5mi",
+   "trips": 2949336,
+   "revenue": 89352441.65,
+   "avg_fare": 22.29,
+   "avg_total": 30.3,
+   "avg_dist": 3.09,
+   "avg_tip": 2.48,
+   "avg_min": 19.45,
+   "fare_per_mile": 7.22,
+   "mph": 9.53
+  },
+  {
+   "band": "5-10mi",
+   "trips": 1203683,
+   "revenue": 56188448.86,
+   "avg_fare": 35.85,
+   "avg_total": 46.68,
+   "avg_dist": 7.16,
+   "avg_tip": 3.38,
+   "avg_min": 28.66,
+   "fare_per_mile": 5.01,
+   "mph": 15.0
+  },
+  {
+   "band": "10-20mi",
+   "trips": 716953,
+   "revenue": 54335387.59,
+   "avg_fare": 58.28,
+   "avg_total": 75.79,
+   "avg_dist": 14.44,
+   "avg_tip": 7.52,
+   "avg_min": 46.1,
+   "fare_per_mile": 4.04,
+   "mph": 18.79
+  },
+  {
+   "band": "20+mi",
+   "trips": 89014,
+   "revenue": 10013145.11,
+   "avg_fare": 90.26,
+   "avg_total": 112.49,
+   "avg_dist": 24.93,
+   "avg_tip": 10.79,
+   "avg_min": 59.42,
+   "fare_per_mile": 3.62,
+   "mph": 25.17
+  }
+ ],
+ "duration": [
+  {
+   "band": "0-5min",
+   "trips": 923190,
+   "revenue": 13583666.87,
+   "avg_fare": 7.97,
+   "avg_total": 14.71,
+   "avg_dist": 0.61,
+   "avg_tip": 1.73,
+   "avg_min": 3.56,
+   "fare_per_mile": 13.04,
+   "mph": 10.31
+  },
+  {
+   "band": "5-10min",
+   "trips": 2548157,
+   "revenue": 44380537.58,
+   "avg_fare": 10.32,
+   "avg_total": 17.42,
+   "avg_dist": 1.17,
+   "avg_tip": 1.88,
+   "avg_min": 7.57,
+   "fare_per_mile": 8.83,
+   "mph": 9.26
+  },
+  {
+   "band": "10-20min",
+   "trips": 3983485,
+   "revenue": 103799727.59,
+   "avg_fare": 18.15,
+   "avg_total": 26.06,
+   "avg_dist": 2.51,
+   "avg_tip": 2.31,
+   "avg_min": 14.46,
+   "fare_per_mile": 7.24,
+   "mph": 10.4
+  },
+  {
+   "band": "20-30min",
+   "trips": 1722722,
+   "revenue": 69092392.17,
+   "avg_fare": 30.13,
+   "avg_total": 40.11,
+   "avg_dist": 5.0,
+   "avg_tip": 3.33,
+   "avg_min": 24.21,
+   "fare_per_mile": 6.03,
+   "mph": 12.39
+  },
+  {
+   "band": "30-60min",
+   "trips": 1095019,
+   "revenue": 69009643.35,
+   "avg_fare": 48.71,
+   "avg_total": 63.02,
+   "avg_dist": 10.08,
+   "avg_tip": 5.93,
+   "avg_min": 39.92,
+   "fare_per_mile": 4.83,
+   "mph": 15.15
+  },
+  {
+   "band": "60+min",
+   "trips": 221343,
+   "revenue": 16250753.59,
+   "avg_fare": 60.46,
+   "avg_total": 73.42,
+   "avg_dist": 15.23,
+   "avg_tip": 5.45,
+   "avg_min": 91.59,
+   "fare_per_mile": 3.97,
+   "mph": 9.98
+  }
+ ],
+ "top20_routes_trips": [
+  {
+   "rank": 1,
+   "route": "Upper East Side South -> Upper East Side North",
+   "ids": "237->236",
+   "trips": 68497,
+   "revenue": 1107952.34,
+   "avg_rev": 16.18,
+   "avg_dist": 1.02,
+   "avg_min": 7.87
+  },
+  {
+   "rank": 2,
+   "route": "Upper East Side North -> Upper East Side South",
+   "ids": "236->237",
+   "trips": 58863,
+   "revenue": 990860.42,
+   "avg_rev": 16.83,
+   "avg_dist": 1.01,
+   "avg_min": 8.84
+  },
+  {
+   "rank": 3,
+   "route": "Upper East Side North -> Upper East Side North",
+   "ids": "236->236",
+   "trips": 46029,
+   "revenue": 632781.09,
+   "avg_rev": 13.75,
+   "avg_dist": 0.62,
+   "avg_min": 5.53
+  },
+  {
+   "rank": 4,
+   "route": "Upper East Side South -> Upper East Side South",
+   "ids": "237->237",
+   "trips": 44385,
+   "revenue": 643541.46,
+   "avg_rev": 14.5,
+   "avg_dist": 0.63,
+   "avg_min": 6.11
+  },
+  {
+   "rank": 5,
+   "route": "Midtown Center -> Upper East Side South",
+   "ids": "161->237",
+   "trips": 29921,
+   "revenue": 570033.73,
+   "avg_rev": 19.05,
+   "avg_dist": 1.04,
+   "avg_min": 10.13
+  },
+  {
+   "rank": 6,
+   "route": "Upper East Side South -> Midtown Center",
+   "ids": "237->161",
+   "trips": 27049,
+   "revenue": 500002.41,
+   "avg_rev": 18.49,
+   "avg_dist": 1.04,
+   "avg_min": 10.13
+  },
+  {
+   "rank": 7,
+   "route": "Upper West Side South -> Upper West Side North",
+   "ids": "239->238",
+   "trips": 25171,
+   "revenue": 360509.0,
+   "avg_rev": 14.32,
+   "avg_dist": 0.84,
+   "avg_min": 5.58
+  },
+  {
+   "rank": 8,
+   "route": "Midtown Center -> Upper East Side North",
+   "ids": "161->236",
+   "trips": 25042,
+   "revenue": 604123.23,
+   "avg_rev": 24.12,
+   "avg_dist": 1.89,
+   "avg_min": 14.34
+  },
+  {
+   "rank": 9,
+   "route": "Lincoln Square East -> Upper West Side South",
+   "ids": "142->239",
+   "trips": 24690,
+   "revenue": 381415.92,
+   "avg_rev": 15.45,
+   "avg_dist": 0.96,
+   "avg_min": 6.65
+  },
+  {
+   "rank": 10,
+   "route": "Lenox Hill West -> Upper East Side North",
+   "ids": "141->236",
+   "trips": 23638,
+   "revenue": 386690.41,
+   "avg_rev": 16.36,
+   "avg_dist": 1.06,
+   "avg_min": 8.36
+  },
+  {
+   "rank": 11,
+   "route": "Upper West Side South -> Lincoln Square East",
+   "ids": "239->142",
+   "trips": 23626,
+   "revenue": 355424.01,
+   "avg_rev": 15.04,
+   "avg_dist": 0.86,
+   "avg_min": 6.51
+  },
+  {
+   "rank": 12,
+   "route": "Upper East Side North -> Lenox Hill West",
+   "ids": "236->141",
+   "trips": 22406,
+   "revenue": 390757.75,
+   "avg_rev": 17.44,
+   "avg_dist": 1.1,
+   "avg_min": 9.52
+  },
+  {
+   "rank": 13,
+   "route": "Upper East Side South -> Midtown East",
+   "ids": "237->162",
+   "trips": 21590,
+   "revenue": 379475.98,
+   "avg_rev": 17.58,
+   "avg_dist": 0.97,
+   "avg_min": 8.85
+  },
+  {
+   "rank": 14,
+   "route": "Upper East Side South -> Lenox Hill West",
+   "ids": "237->141",
+   "trips": 21537,
+   "revenue": 325075.48,
+   "avg_rev": 15.09,
+   "avg_dist": 0.74,
+   "avg_min": 6.96
+  },
+  {
+   "rank": 15,
+   "route": "Upper East Side North -> Midtown Center",
+   "ids": "236->161",
+   "trips": 21529,
+   "revenue": 517294.21,
+   "avg_rev": 24.03,
+   "avg_dist": 1.89,
+   "avg_min": 15.09
+  },
+  {
+   "rank": 16,
+   "route": "Upper West Side North -> Upper West Side South",
+   "ids": "238->239",
+   "trips": 21278,
+   "revenue": 300464.47,
+   "avg_rev": 14.12,
+   "avg_dist": 0.79,
+   "avg_min": 5.84
+  },
+  {
+   "rank": 17,
+   "route": "Upper East Side North -> Upper West Side South",
+   "ids": "236->239",
+   "trips": 20523,
+   "revenue": 375379.49,
+   "avg_rev": 18.29,
+   "avg_dist": 1.41,
+   "avg_min": 9.56
+  },
+  {
+   "rank": 18,
+   "route": "Penn Station/Madison Sq West -> Times Sq/Theatre District",
+   "ids": "186->230",
+   "trips": 20233,
+   "revenue": 426443.88,
+   "avg_rev": 21.08,
+   "avg_dist": 1.02,
+   "avg_min": 13.75
+  },
+  {
+   "rank": 19,
+   "route": "Yorkville West -> Upper East Side North",
+   "ids": "263->236",
+   "trips": 19534,
+   "revenue": 272575.3,
+   "avg_rev": 13.95,
+   "avg_dist": 0.67,
+   "avg_min": 5.97
+  },
+  {
+   "rank": 20,
+   "route": "JFK Airport -> Outside of NYC",
+   "ids": "132->265",
+   "trips": 19520,
+   "revenue": 2403939.57,
+   "avg_rev": 123.15,
+   "avg_dist": 20.21,
+   "avg_min": 40.09
+  }
+ ],
+ "top20_routes_revenue": [
+  {
+   "rank": 1,
+   "route": "JFK Airport -> Outside of NYC",
+   "ids": "132->265",
+   "trips": 19520,
+   "revenue": 2403939.57,
+   "avg_rev": 123.15,
+   "avg_dist": 20.21,
+   "avg_min": 40.09
+  },
+  {
+   "rank": 2,
+   "route": "JFK Airport -> Times Sq/Theatre District",
+   "ids": "132->230",
+   "trips": 14698,
+   "revenue": 1428559.44,
+   "avg_rev": 97.19,
+   "avg_dist": 17.66,
+   "avg_min": 56.73
+  },
+  {
+   "rank": 3,
+   "route": "Upper East Side South -> Upper East Side North",
+   "ids": "237->236",
+   "trips": 68497,
+   "revenue": 1107952.34,
+   "avg_rev": 16.18,
+   "avg_dist": 1.02,
+   "avg_min": 7.87
+  },
+  {
+   "rank": 4,
+   "route": "LaGuardia Airport -> Times Sq/Theatre District",
+   "ids": "138->230",
+   "trips": 13601,
+   "revenue": 1093917.92,
+   "avg_rev": 80.43,
+   "avg_dist": 10.12,
+   "avg_min": 38.35
+  },
+  {
+   "rank": 5,
+   "route": "Upper East Side North -> Upper East Side South",
+   "ids": "236->237",
+   "trips": 58863,
+   "revenue": 990860.42,
+   "avg_rev": 16.83,
+   "avg_dist": 1.01,
+   "avg_min": 8.84
+  },
+  {
+   "rank": 6,
+   "route": "JFK Airport -> Midtown South",
+   "ids": "132->164",
+   "trips": 7927,
+   "revenue": 780713.2,
+   "avg_rev": 98.49,
+   "avg_dist": 17.02,
+   "avg_min": 48.15
+  },
+  {
+   "rank": 7,
+   "route": "JFK Airport -> Clinton East",
+   "ids": "132->48",
+   "trips": 7216,
+   "revenue": 695309.45,
+   "avg_rev": 96.36,
+   "avg_dist": 17.95,
+   "avg_min": 56.04
+  },
+  {
+   "rank": 8,
+   "route": "LaGuardia Airport -> Midtown Center",
+   "ids": "138->161",
+   "trips": 8804,
+   "revenue": 680552.25,
+   "avg_rev": 77.3,
+   "avg_dist": 9.71,
+   "avg_min": 35.43
+  },
+  {
+   "rank": 9,
+   "route": "Times Sq/Theatre District -> LaGuardia Airport",
+   "ids": "230->138",
+   "trips": 8172,
+   "revenue": 652732.07,
+   "avg_rev": 79.87,
+   "avg_dist": 11.46,
+   "avg_min": 35.39
+  },
+  {
+   "rank": 10,
+   "route": "Upper East Side South -> Upper East Side South",
+   "ids": "237->237",
+   "trips": 44385,
+   "revenue": 643541.46,
+   "avg_rev": 14.5,
+   "avg_dist": 0.63,
+   "avg_min": 6.11
+  },
+  {
+   "rank": 11,
+   "route": "JFK Airport -> Midtown Center",
+   "ids": "132->161",
+   "trips": 6478,
+   "revenue": 636177.07,
+   "avg_rev": 98.21,
+   "avg_dist": 17.38,
+   "avg_min": 52.16
+  },
+  {
+   "rank": 12,
+   "route": "Upper East Side North -> Upper East Side North",
+   "ids": "236->236",
+   "trips": 46029,
+   "revenue": 632781.09,
+   "avg_rev": 13.75,
+   "avg_dist": 0.62,
+   "avg_min": 5.53
+  },
+  {
+   "rank": 13,
+   "route": "JFK Airport -> Midtown North",
+   "ids": "132->163",
+   "trips": 6431,
+   "revenue": 617606.6,
+   "avg_rev": 96.04,
+   "avg_dist": 17.81,
+   "avg_min": 56.67
+  },
+  {
+   "rank": 14,
+   "route": "JFK Airport -> Murray Hill",
+   "ids": "132->170",
+   "trips": 6221,
+   "revenue": 606387.47,
+   "avg_rev": 97.47,
+   "avg_dist": 16.65,
+   "avg_min": 42.83
+  },
+  {
+   "rank": 15,
+   "route": "Midtown Center -> Upper East Side North",
+   "ids": "161->236",
+   "trips": 25042,
+   "revenue": 604123.23,
+   "avg_rev": 24.12,
+   "avg_dist": 1.89,
+   "avg_min": 14.34
+  },
+  {
+   "rank": 16,
+   "route": "Midtown Center -> Upper East Side South",
+   "ids": "161->237",
+   "trips": 29921,
+   "revenue": 570033.73,
+   "avg_rev": 19.05,
+   "avg_dist": 1.04,
+   "avg_min": 10.13
+  },
+  {
+   "rank": 17,
+   "route": "LaGuardia Airport -> Outside of NYC",
+   "ids": "138->265",
+   "trips": 3934,
+   "revenue": 553129.09,
+   "avg_rev": 140.6,
+   "avg_dist": 21.66,
+   "avg_min": 42.21
+  },
+  {
+   "rank": 18,
+   "route": "JFK Airport -> Upper West Side South",
+   "ids": "132->239",
+   "trips": 5525,
+   "revenue": 540408.94,
+   "avg_rev": 97.81,
+   "avg_dist": 20.41,
+   "avg_min": 53.73
+  },
+  {
+   "rank": 19,
+   "route": "JFK Airport -> Upper East Side North",
+   "ids": "132->236",
+   "trips": 5528,
+   "revenue": 538014.11,
+   "avg_rev": 97.33,
+   "avg_dist": 18.99,
+   "avg_min": 45.98
+  },
+  {
+   "rank": 20,
+   "route": "JFK Airport -> East Chelsea",
+   "ids": "132->68",
+   "trips": 5337,
+   "revenue": 524695.05,
+   "avg_rev": 98.31,
+   "avg_dist": 17.85,
+   "avg_min": 52.95
+  }
+ ],
+ "n_routes": 47937,
+ "routes_overlap": [
+  "132->265",
+  "161->236",
+  "161->237",
+  "236->236",
+  "236->237",
+  "237->236",
+  "237->237"
+ ],
+ "anom_total": 11077206,
+ "anom_flagged": [
+  3434517,
+  31.0053
+ ],
+ "anomalies": [
+  {
+   "label": "ZERO_PASSENGER",
+   "count": 3097761,
+   "pct": 27.9652
+  },
+  {
+   "label": "ZERO_DISTANCE",
+   "count": 370198,
+   "pct": 3.342
+  },
+  {
+   "label": "ZERO_DURATION",
+   "count": 134801,
+   "pct": 1.2169
+  },
+  {
+   "label": "EXTREME_FARE_PER_MI",
+   "count": 96641,
+   "pct": 0.8724
+  },
+  {
+   "label": "NEGATIVE_TOTAL",
+   "count": 88580,
+   "pct": 0.7997
+  },
+  {
+   "label": "NEGATIVE_FARE",
+   "count": 86908,
+   "pct": 0.7846
+  },
+  {
+   "label": "EXTREME_DURATION",
+   "count": 2381,
+   "pct": 0.0215
+  },
+  {
+   "label": "IMPOSSIBLE_SPEED",
+   "count": 2282,
+   "pct": 0.0206
+  },
+  {
+   "label": "TIP_EXCEEDS_FARE",
+   "count": 1232,
+   "pct": 0.0111
+  },
+  {
+   "label": "EXTREME_DISTANCE",
+   "count": 339,
+   "pct": 0.0031
+  },
+  {
+   "label": "EXTREME_FARE",
+   "count": 9,
+   "pct": 0.0001
+  },
+  {
+   "label": "OUT_OF_WINDOW_DATE",
+   "count": 9,
+   "pct": 0.0001
+  },
+  {
+   "label": "EXTREME_PASSENGER",
+   "count": 3,
+   "pct": 0.0
+  }
+ ]
+}

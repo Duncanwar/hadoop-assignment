@@ -1,0 +1,18 @@
+############### 1. HADOOP SERVICES RUNNING (jps) ###############
+$ jps
+2161 SecondaryNameNode
+10753 NodeManager
+2643 JobHistoryServer
+1957 NameNode
+2229 ResourceManager
+8550 Jps
+2058 DataNode
+
+$ hadoop version
+Hadoop 3.5.0
+Source code repository https://github.com/apache/hadoop.git -r dbcc7cd797100e6b32cd84f85b53a5193a5f9af0
+Compiled by cnauroth on 2026-03-24T16:56Z
+Compiled on platform linux-x86_64
+Compiled with protoc 3.25.5
+From source with checksum 64582ed0a62a169c39a19c734a8f33b5
+This command was run using /home/claude/hadoop-3.5.0/share/hadoop/common/hadoop-common-3.5.0.jar

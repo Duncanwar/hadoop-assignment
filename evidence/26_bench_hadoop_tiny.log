@@ -1,0 +1,83 @@
+2026-08-29 18:18:36,612 WARN streaming.StreamJob: -file option is deprecated, please use generic option -files instead.
+2026-08-29 18:18:36,807 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+packageJobJar: [mappers/mapper_revenue.py, reducers/combiner_sums.py, reducers/reducer_revenue.py, /tmp/hadoop-unjar17639687550591586650/] [] /tmp/streamjob9256496249589322131.jar tmpDir=null
+2026-08-29 18:18:37,548 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at localhost/127.0.0.1:8032
+2026-08-29 18:18:37,733 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at localhost/127.0.0.1:8032
+2026-08-29 18:18:38,118 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/root/.staging/job_1788022068759_0019
+2026-08-29 18:18:39,351 INFO mapred.FileInputFormat: Total input files to process : 1
+2026-08-29 18:18:39,803 INFO mapreduce.JobSubmitter: number of splits:2
+2026-08-29 18:18:40,042 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1788022068759_0019
+2026-08-29 18:18:40,042 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2026-08-29 18:18:40,282 INFO conf.Configuration: resource-types.xml not found
+2026-08-29 18:18:40,282 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2026-08-29 18:18:40,373 INFO impl.YarnClientImpl: Submitted application application_1788022068759_0019
+2026-08-29 18:18:40,412 INFO mapreduce.Job: The url to track the job: http://localhost:8088/proxy/application_1788022068759_0019/
+2026-08-29 18:18:40,414 INFO mapreduce.Job: Running job: job_1788022068759_0019
+2026-08-29 18:18:49,557 INFO mapreduce.Job: Job job_1788022068759_0019 running in uber mode : false
+2026-08-29 18:18:49,558 INFO mapreduce.Job:  map 0% reduce 0%
+2026-08-29 18:18:59,788 INFO mapreduce.Job:  map 100% reduce 0%
+2026-08-29 18:19:05,866 INFO mapreduce.Job:  map 100% reduce 100%
+2026-08-29 18:19:06,889 INFO mapreduce.Job: Job job_1788022068759_0019 completed successfully
+2026-08-29 18:19:06,988 INFO mapreduce.Job: Counters: 54
+	File System Counters
+		FILE: Number of bytes read=22332
+		FILE: Number of bytes written=1012781
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=10636808
+		HDFS: Number of bytes written=12376
+		HDFS: Number of read operations=11
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Data-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=32886
+		Total time spent by all reduces in occupied slots (ms)=7062
+		Total time spent by all map tasks (ms)=16443
+		Total time spent by all reduce tasks (ms)=3531
+		Total vcore-milliseconds taken by all map tasks=16443
+		Total vcore-milliseconds taken by all reduce tasks=3531
+		Total megabyte-milliseconds taken by all map tasks=16837632
+		Total megabyte-milliseconds taken by all reduce tasks=3615744
+	Map-Reduce Framework
+		Map input records=100000
+		Map output records=100000
+		Map output bytes=3289805
+		Map output materialized bytes=22338
+		Input split bytes=224
+		Combine input records=100000
+		Combine output records=476
+		Reduce input groups=243
+		Reduce shuffle bytes=22338
+		Reduce input records=476
+		Reduce output records=243
+		Spilled Records=952
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=95
+		CPU time spent (ms)=4730
+		Physical memory (bytes) snapshot=821997568
+		Virtual memory (bytes) snapshot=8211558400
+		Total committed heap usage (bytes)=479199232
+		Peak Map Physical memory (bytes)=319557632
+		Peak Map Virtual memory (bytes)=2736160768
+		Peak Reduce Physical memory (bytes)=204484608
+		Peak Reduce Virtual memory (bytes)=2739273728
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=10636584
+	File Output Format Counters 
+		Bytes Written=12376
+2026-08-29 18:19:06,988 INFO streaming.StreamJob: Output directory: /taxi_project/output/bench_tiny
+ELAPSED_SECONDS=32

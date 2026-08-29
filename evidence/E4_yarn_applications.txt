@@ -1,0 +1,958 @@
+############### 4. YARN APPLICATIONS ###############
+$ yarn node -list -all
+2026-08-29 18:23:24,636 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2026-08-29 18:23:24,725 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at localhost/127.0.0.1:8032
+Total Nodes:2
+         Node-Id	     Node-State	Node-Http-Address	Number-of-Running-Containers
+ localhost:36319	        RUNNING	   localhost:8042	                           0
+ localhost:46727	       SHUTDOWN	   localhost:8042	                           0
+
+$ yarn application -list -appStates ALL
+2026-08-29 18:23:26,066 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2026-08-29 18:23:26,167 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at localhost/127.0.0.1:8032
+Total number of applications (application-types: [], states: [NEW, NEW_SAVING, SUBMITTED, ACCEPTED, RUNNING, FINISHED, FAILED, KILLED] and tags: []):20
+                Application-Id	    Application-Name	    Application-Type	      User	     Queue	             State	       Final-State	       Progress	                       Tracking-URL
+application_1788022068759_0007	05-RevenueByPickupZone-STAGE1	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0007
+application_1788022068759_0006	04-PickupLocationTripCounts	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0006
+application_1788022068759_0005	03-DailyDemandWeekdayWeekend	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0005
+application_1788022068759_0004	 02-HourlyTaxiDemand	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0004
+application_1788022068759_0011	09-TripDurationAnalysis	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0011
+application_1788022068759_0010	08-BusiestPickupDropoffRoutes	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0010
+application_1788022068759_0009	07-DistanceBasedFareAnalysis	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0009
+application_1788022068759_0008	06-PaymentMethodAnalysis	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0008
+application_1788022068759_0003	01-DataCleaning-Validate-and-Deduplicate	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0003
+application_1788022068759_0002	01-DataCleaning-Validate-and-Deduplicate	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0002
+application_1788022068759_0001	01-DataCleaning-Validate-and-Deduplicate	           MAPREDUCE	      root	root.default	            KILLED	            KILLED	             0%	http://localhost:8088/cluster/app/application_1788022068759_0001
+application_1788022068759_0020	          BENCH-half	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0020
+application_1788022068759_0015	13-Bottom10PickupZonesByTrips	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0015
+application_1788022068759_0014	12-Top10PickupZonesByTrips	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0014
+application_1788022068759_0013	11-Top10RevenueZones-STAGE2	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0013
+application_1788022068759_0012	10-AnomalyDetection-RawFeed	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0012
+application_1788022068759_0019	          BENCH-tiny	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0019
+application_1788022068759_0018	BENCH-RevenueByPickupZone	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0018
+application_1788022068759_0017	15-Top20RoutesByRevenue	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0017
+application_1788022068759_0016	14-Top20RoutesByTripCount	           MAPREDUCE	      root	root.default	          FINISHED	         SUCCEEDED	           100%	http://localhost:19888/jobhistory/job/job_1788022068759_0016
+
+############### PER-APPLICATION DETAIL ###############
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0001
+Application Report : 
+	Application-Id : application_1788022068759_0001
+	Application-Name : 01-DataCleaning-Validate-and-Deduplicate
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788022728903
+	Finish-Time : 1788023355125
+	Progress : 0%
+	State : KILLED
+	Final-State : KILLED
+	Tracking-URL : http://localhost:8088/cluster/app/application_1788022068759_0001
+	RPC Port : -1
+	AM Host : N/A
+	Aggregate Resource Allocation : 1502671 MB-seconds, 1462 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : TIME_OUT
+	Diagnostics : Application application_1788022068759_0001 was killed by user root at 127.0.0.1
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0002
+Application Report : 
+	Application-Id : application_1788022068759_0002
+	Application-Name : 01-DataCleaning-Validate-and-Deduplicate
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788023361647
+	Finish-Time : 1788023718905
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0002
+	RPC Port : 38467
+	AM Host : localhost
+	Aggregate Resource Allocation : 1584361 MB-seconds, 1540 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0003
+Application Report : 
+	Application-Id : application_1788022068759_0003
+	Application-Name : 01-DataCleaning-Validate-and-Deduplicate
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788023770911
+	Finish-Time : 1788025269161
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0003
+	RPC Port : 42861
+	AM Host : localhost
+	Aggregate Resource Allocation : 3007442 MB-seconds, 2925 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : TIME_OUT
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0004
+Application Report : 
+	Application-Id : application_1788022068759_0004
+	Application-Name : 02-HourlyTaxiDemand
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788025339169
+	Finish-Time : 1788025496670
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0004
+	RPC Port : 34559
+	AM Host : localhost
+	Aggregate Resource Allocation : 752559 MB-seconds, 728 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0005
+Application Report : 
+	Application-Id : application_1788022068759_0005
+	Application-Name : 03-DailyDemandWeekdayWeekend
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788025503349
+	Finish-Time : 1788025668990
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0005
+	RPC Port : 42647
+	AM Host : localhost
+	Aggregate Resource Allocation : 804206 MB-seconds, 779 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0006
+Application Report : 
+	Application-Id : application_1788022068759_0006
+	Application-Name : 04-PickupLocationTripCounts
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788025676455
+	Finish-Time : 1788025840442
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0006
+	RPC Port : 38059
+	AM Host : localhost
+	Aggregate Resource Allocation : 772658 MB-seconds, 749 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0007
+Application Report : 
+	Application-Id : application_1788022068759_0007
+	Application-Name : 05-RevenueByPickupZone-STAGE1
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788025848196
+	Finish-Time : 1788026031935
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0007
+	RPC Port : 33733
+	AM Host : localhost
+	Aggregate Resource Allocation : 902743 MB-seconds, 874 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0008
+Application Report : 
+	Application-Id : application_1788022068759_0008
+	Application-Name : 06-PaymentMethodAnalysis
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788026039765
+	Finish-Time : 1788026228594
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0008
+	RPC Port : 36951
+	AM Host : localhost
+	Aggregate Resource Allocation : 920125 MB-seconds, 894 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0009
+Application Report : 
+	Application-Id : application_1788022068759_0009
+	Application-Name : 07-DistanceBasedFareAnalysis
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788026236234
+	Finish-Time : 1788026414712
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0009
+	RPC Port : 46045
+	AM Host : localhost
+	Aggregate Resource Allocation : 875741 MB-seconds, 849 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0010
+Application Report : 
+	Application-Id : application_1788022068759_0010
+	Application-Name : 08-BusiestPickupDropoffRoutes
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788026423029
+	Finish-Time : 1788026612275
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0010
+	RPC Port : 44087
+	AM Host : localhost
+	Aggregate Resource Allocation : 934445 MB-seconds, 904 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0011
+Application Report : 
+	Application-Id : application_1788022068759_0011
+	Application-Name : 09-TripDurationAnalysis
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788026620914
+	Finish-Time : 1788026816857
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0011
+	RPC Port : 39477
+	AM Host : localhost
+	Aggregate Resource Allocation : 950075 MB-seconds, 921 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0012
+Application Report : 
+	Application-Id : application_1788022068759_0012
+	Application-Name : 10-AnomalyDetection-RawFeed
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788026823713
+	Finish-Time : 1788027012411
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0012
+	RPC Port : 41729
+	AM Host : localhost
+	Aggregate Resource Allocation : 921837 MB-seconds, 894 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0013
+Application Report : 
+	Application-Id : application_1788022068759_0013
+	Application-Name : 11-Top10RevenueZones-STAGE2
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788027018934
+	Finish-Time : 1788027040267
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0013
+	RPC Port : 37639
+	AM Host : localhost
+	Aggregate Resource Allocation : 48208 MB-seconds, 45 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0014
+Application Report : 
+	Application-Id : application_1788022068759_0014
+	Application-Name : 12-Top10PickupZonesByTrips
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788027047190
+	Finish-Time : 1788027067399
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0014
+	RPC Port : 33693
+	AM Host : localhost
+	Aggregate Resource Allocation : 45697 MB-seconds, 43 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0015
+Application Report : 
+	Application-Id : application_1788022068759_0015
+	Application-Name : 13-Bottom10PickupZonesByTrips
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788027074873
+	Finish-Time : 1788027096417
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0015
+	RPC Port : 41251
+	AM Host : localhost
+	Aggregate Resource Allocation : 48204 MB-seconds, 45 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0016
+Application Report : 
+	Application-Id : application_1788022068759_0016
+	Application-Name : 14-Top20RoutesByTripCount
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788027103190
+	Finish-Time : 1788027123672
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0016
+	RPC Port : 39955
+	AM Host : localhost
+	Aggregate Resource Allocation : 45979 MB-seconds, 43 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0017
+Application Report : 
+	Application-Id : application_1788022068759_0017
+	Application-Name : 15-Top20RoutesByRevenue
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788027130224
+	Finish-Time : 1788027150285
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0017
+	RPC Port : 46781
+	AM Host : localhost
+	Aggregate Resource Allocation : 46059 MB-seconds, 44 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0018
+Application Report : 
+	Application-Id : application_1788022068759_0018
+	Application-Name : BENCH-RevenueByPickupZone
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788027252869
+	Finish-Time : 1788027439430
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0018
+	RPC Port : 34345
+	AM Host : localhost
+	Aggregate Resource Allocation : 878128 MB-seconds, 853 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0019
+Application Report : 
+	Application-Id : application_1788022068759_0019
+	Application-Name : BENCH-tiny
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788027520324
+	Finish-Time : 1788027545355
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0019
+	RPC Port : 40821
+	AM Host : localhost
+	Aggregate Resource Allocation : 56652 MB-seconds, 53 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+-------------------------------------------------------------
+$ yarn application -status application_1788022068759_0020
+Application Report : 
+	Application-Id : application_1788022068759_0020
+	Application-Name : BENCH-half
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : root.default
+	Application Priority : 0
+	Start-Time : 1788027571608
+	Finish-Time : 1788027669083
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://localhost:19888/jobhistory/job/job_1788022068759_0020
+	RPC Port : 46169
+	AM Host : localhost
+	Aggregate Resource Allocation : 468729 MB-seconds, 454 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : SUCCEEDED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+
+
+############### RM REST API: /ws/v1/cluster/apps ###############
+{
+    "apps": {
+        "app": [
+            {
+                "id": "application_1788022068759_0007",
+                "user": "root",
+                "name": "05-RevenueByPickupZone-STAGE1",
+                "queue": "root.default",
+                "state": "FINISHED",
+                "finalStatus": "SUCCEEDED",
+                "progress": 100.0,
+                "trackingUI": "History",
+                "trackingUrl": "http://localhost:8088/proxy/application_1788022068759_0007/",
+                "diagnostics": "",
+                "clusterId": 1788022068759,
+                "applicationType": "MAPREDUCE",
+                "applicationTags": "",
+                "priority": 0,
+                "startedTime": 1788025848196,
+                "launchTime": 1788025848241,
+                "finishedTime": 1788026031935,
+                "elapsedTime": 183739,
+                "amContainerLogs": "http://localhost:8042/node/containerlogs/container_1788022068759_0007_01_000001/root",
+                "amHostHttpAddress": "localhost:8042",
+                "amRPCAddress": "localhost:33733",
+                "masterNodeId": "localhost:36319",
+                "allocatedMB": -1,
+                "allocatedVCores": -1,
+                "reservedMB": -1,
+                "reservedVCores": -1,
+                "runningContainers": -1,
+                "memorySeconds": 902743,
+                "vcoreSeconds": 874,
+                "queueUsagePercentage": 0.0,
+                "clusterUsagePercentage": 0.0,
+                "resourceSecondsMap": {
+                    "entry": [
+                        {
+                            "key": "memory-mb",
+                            "value": 902743
+                        },
+                        {
+                            "key": "vcores",
+                            "value": 874
+                        }
+                    ]
+                },
+                "preemptedResourceMB": 0,
+                "preemptedResourceVCores": 0,
+                "numNonAMContainerPreempted": 0,
+                "numAMContainerPreempted": 0,
+                "preemptedMemorySeconds": 0,
+                "preemptedVcoreSeconds": 0,
+                "logAggregationStatus": "SUCCEEDED",
+                "unmanagedApplication": false,
+                "amNodeLabelExpression": "",
+                "timeouts": {
+                    "timeout": [
+                        {
+                            "type": "LIFETIME",
+                            "expiryTime": "UNLIMITED",
+                            "remainingTimeInSeconds": -1
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "application_1788022068759_0006",
+                "user": "root",
+                "name": "04-PickupLocationTripCounts",
+                "queue": "root.default",
+                "state": "FINISHED",
+                "finalStatus": "SUCCEEDED",
+                "progress": 100.0,
+                "trackingUI": "History",
+                "trackingUrl": "http://localhost:8088/proxy/application_1788022068759_0006/",
+                "diagnostics": "",
+                "clusterId": 1788022068759,
+                "applicationType": "MAPREDUCE",
+                "applicationTags": "",
+                "priority": 0,
+                "startedTime": 1788025676455,
+                "launchTime": 1788025676521,
+                "finishedTime": 1788025840442,
+                "elapsedTime": 163987,
+                "amContainerLogs": "http://localhost:8042/node/containerlogs/container_1788022068759_0006_01_000001/root",
+                "amHostHttpAddress": "localhost:8042",
+                "amRPCAddress": "localhost:38059",
+                "masterNodeId": "localhost:36319",
+                "allocatedMB": -1,
+                "allocatedVCores": -1,
+                "reservedMB": -1,
+                "reservedVCores": -1,
+                "runningContainers": -1,
+                "memorySeconds": 772658,
+                "vcoreSeconds": 749,
+                "queueUsagePercentage": 0.0,
+                "clusterUsagePercentage": 0.0,
+                "resourceSecondsMap": {
+                    "entry": [
+                        {
+                            "key": "memory-mb",
+                            "value": 772658
+                        },
+                        {
+                            "key": "vcores",
+                            "value": 749
+                        }
+                    ]
+                },
+                "preemptedResourceMB": 0,
+                "preemptedResourceVCores": 0,
+                "numNonAMContainerPreempted": 0,
+                "numAMContainerPreempted": 0,
+                "preemptedMemorySeconds": 0,
+                "preemptedVcoreSeconds": 0,
+                "logAggregationStatus": "SUCCEEDED",
+                "unmanagedApplication": false,
+                "amNodeLabelExpression": "",
+                "timeouts": {
+                    "timeout": [
+                        {
+                            "type": "LIFETIME",
+                            "expiryTime": "UNLIMITED",
+                            "remainingTimeInSeconds": -1
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "application_1788022068759_0005",
+                "user": "root",
+                "name": "03-DailyDemandWeekdayWeekend",
+                "queue": "root.default",
+                "state": "FINISHED",
+                "finalStatus": "SUCCEEDED",
+                "progress": 100.0,
+                "trackingUI": "History",
+                "trackingUrl": "http://localhost:8088/proxy/application_1788022068759_0005/",
+                "diagnostics": "",
+                "clusterId": 1788022068759,
+                "applicationType": "MAPREDUCE",
+                "applicationTags": "",
+                "priority": 0,
+                "startedTime": 1788025503349,
+                "launchTime": 1788025503387,
+                "finishedTime": 1788025668990,
+                "elapsedTime": 165641,
+                "amContainerLogs": "http://localhost:8042/node/containerlogs/container_1788022068759_0005_01_000001/root",
+                "amHostHttpAddress": "localhost:8042",
+                "amRPCAddress": "localhost:42647",
+                "masterNodeId": "localhost:36319",
+                "allocatedMB": -1,
+                "allocatedVCores": -1,
+                "reservedMB": -1,
+                "reservedVCores": -1,
+                "runningContainers": -1,
+                "memorySeconds": 804206,
+                "vcoreSeconds": 779,
+                "queueUsagePercentage": 0.0,
+                "clusterUsagePercentage": 0.0,
+                "resourceSecondsMap": {
+                    "entry": [
+                        {
+                            "key": "memory-mb",
+                            "value": 804206
+                        },
+                        {
+                            "key": "vcores",
+                            "value": 779
+                        }
+                    ]
+                },
+                "preemptedResourceMB": 0,
+                "preemptedResourceVCores": 0,
+                "numNonAMContainerPreempted": 0,
+                "numAMContainerPreempted": 0,
+                "preemptedMemorySeconds": 0,
+                "preemptedVcoreSeconds": 0,
+                "logAggregationStatus": "SUCCEEDED",
+                "unmanagedApplication": false,
+                "amNodeLabelExpression": "",
+                "timeouts": {
+                    "timeout": [
+                        {
+                            "type": "LIFETIME",
+                            "expiryTime": "UNLIMITED",
+                            "remainingTimeInSeconds": -1
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "application_1788022068759_0004",
+                "user": "root",
+                "name": "02-HourlyTaxiDemand",
+                "queue": "root.default",
+                "state": "FINISHED",
+                "finalStatus": "SUCCEEDED",
+                "progress": 100.0,
+                "trackingUI": "History",
+                "trackingUrl": "http://localhost:8088/proxy/application_1788022068759_0004/",
+                "diagnostics": "",
+                "clusterId": 1788022068759,
+                "applicationType": "MAPREDUCE",
+                "applicationTags": "",
+                "priority": 0,
+                "startedTime": 1788025339169,
+                "launchTime": 1788025339214,
+                "finishedTime": 1788025496670,
+                "elapsedTime": 157501,
+                "amContainerLogs": "http://localhost:8042/node/containerlogs/container_1788022068759_0004_01_000001/root",
+                "amHostHttpAddress": "localhost:8042",
+                "amRPCAddress": "localhost:34559",
+                "masterNodeId": "localhost:36319",
+                "allocatedMB": -1,
+                "allocatedVCores": -1,
+                "reservedMB": -1,
+                "reservedVCores": -1,
+                "runningContainers": -1,
+                "memorySeconds": 752559,
+                "vcoreSeconds": 728,
+                "queueUsagePercentage": 0.0,
+                "clusterUsagePercentage": 0.0,
+                "resourceSecondsMap": {
+                    "entry": [
+                        {
+                            "key": "memory-mb",
+                            "value": 752559
+                        },
+                        {
+                            "key": "vcores",
+                            "value": 728
+                        }
+                    ]
+                },
+                "preemptedResourceMB": 0,
+                "preemptedResourceVCores": 0,
+                "numNonAMContainerPreempted": 0,
+                "numAMContainerPreempted": 0,
+                "preemptedMemorySeconds": 0,
+                "preemptedVcoreSeconds": 0,
+                "logAggregationStatus": "SUCCEEDED",
+                "unmanagedApplication": false,
+                "amNodeLabelExpression": "",
+                "timeouts": {
+                    "timeout": [
+                        {
+                            "type": "LIFETIME",
+                            "expiryTime": "UNLIMITED",
+                            "remainingTimeInSeconds": -1
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "application_1788022068759_0011",
+                "user": "root",
+                "name": "09-TripDurationAnalysis",
+                "queue": "root.default",
+                "state": "FINISHED",
+                "finalStatus": "SUCCEEDED",
+                "progress": 100.0,
+                "trackingUI": "History",
+                "trackingUrl": "http://localhost:8088/proxy/application_1788022068759_0011/",
+                "diagnostics": "",
+                "clusterId": 1788022068759,
+                "applicationType": "MAPREDUCE",
+                "applicationTags": "",
+                "priority": 0,
+                "startedTime": 1788026620914,
+                "launchTime": 1788026620951,
+                "finishedTime": 1788026816857,
+                "elapsedTime": 195943,
+                "amContainerLogs": "http://localhost:8042/node/containerlogs/container_1788022068759_0011_01_000001/root",
+                "amHostHttpAddress": "localhost:8042",
+                "amRPCAddress": "localhost:39477",
+                "masterNodeId": "localhost:36319",
+                "allocatedMB": -1,
+                "allocatedVCores": -1,
+                "reservedMB": -1,
+                "reservedVCores": -1,
+                "runningContainers": -1,
+                "memorySeconds": 950075,
+                "vcoreSeconds": 921,
+                "queueUsagePercentage": 0.0,
+                "clusterUsagePercentage": 0.0,
+                "resourceSecondsMap": {
+                    "entry": [
+                        {
+                            "key": "memory-mb",
+                            "value": 950075
+                        },
+                        {
+                            "key": "vcores",
+                            "value": 921
+                        }
+                    ]
+                },
+                "preemptedResourceMB": 0,
+                "preemptedResourceVCores": 0,
+                "numNonAMContainerPreempted": 0,
+                "numAMContainerPreempted": 0,
+                "preemptedMemorySeconds": 0,
+                "preemptedVcoreSeconds": 0,
+                "logAggregationStatus": "SUCCEEDED",
+                "unmanagedApplication": false,
+                "amNodeLabelExpression": "",
+                "timeouts": {
+                    "timeout": [
+                        {
+                            "type": "LIFETIME",
+                            "expiryTime": "UNLIMITED",
+                            "remainingTimeInSeconds": -1
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "application_1788022068759_0010",
+                "user": "root",
+                "name": "08-BusiestPickupDropoffRoutes",
+                "queue": "root.default",
+                "state": "FINISHED",
+                "finalStatus": "SUCCEEDED",
+                "progress": 100.0,
+                "trackingUI": "History",
+                "trackingUrl": "http://localhost:8088/proxy/application_1788022068759_0010/",
+                "diagnostics": "",
+                "clusterId": 1788022068759,
+                "applicationType": "MAPREDUCE",
+                "applicationTags": "",
+                "priority": 0,
+                "startedTime": 1788026423029,
+                "launchTime": 1788026423085,
+                "finishedTime": 1788026612275,
+                "elapsedTime": 189246,
+                "amContainerLogs": "http://localhost:8042/node/containerlogs/container_1788022068759_0010_01_000001/root",
+                "amHostHttpAddress": "localhost:8042",
+                "amRPCAddress": "localhost:44087",
+                "masterNodeId": "localhost:36319",
+                "allocatedMB": -1,
+                "allocatedVCores": -1,
+                "reservedMB": -1,
+                "reservedVCores": -1,
+                "runningContainers": -1,
+                "memorySeconds": 934445,
+                "vcoreSeconds": 904,
+                "queueUsagePercentage": 0.0,
+                "clusterUsagePercentage": 0.0,
+                "resourceSecondsMap": {
+                    "entry": [
+                        {
+                            "key": "memory-mb",
+                            "value": 934445
+                        },
+                        {
+                            "key": "vcores",
+                            "value": 904
+                        }
+                    ]
+                },
+                "preemptedResourceMB": 0,
+                "preemptedResourceVCores": 0,
+                "numNonAMContainerPreempted": 0,
+                "numAMContainerPreempted": 0,
+                "preemptedMemorySeconds": 0,
+                "preemptedVcoreSeconds": 0,
+                "logAggregationStatus": "SUCCEEDED",
+                "unmanagedApplication": false,
+                "amNodeLabelExpression": "",
+                "timeouts": {
+                    "timeout": [
+                        {
+                            "type": "LIFETIME",
+                            "expiryTime": "UNLIMITED",
+                            "remainingTimeInSeconds": -1
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "application_1788022068759_0009",
+                "user": "root",
+                "name": "07-DistanceBasedFareAnalysis",
+                "queue": "root.default",
+                "state": "FINISHED",
+                "finalStatus": "SUCCEEDED",
+                "progress": 100.0,
+                "trackingUI": "History",
+                "trackingUrl": "http://localhost:8088/proxy/application_1788022068759_0009/",
+                "diagnostics": "",
+                "clusterId": 1788022068759,
+                "applicationType": "MAPREDUCE",
+                "applicationTags": "",
+                "priority": 0,
+                "startedTime": 1788026236234,
+                "launchTime": 1788026236282,
+                "finishedTime": 1788026414712,
+                "elapsedTime": 178478,

@@ -1,0 +1,83 @@
+2026-08-29 18:12:07,620 WARN streaming.StreamJob: -file option is deprecated, please use generic option -files instead.
+2026-08-29 18:12:07,825 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+packageJobJar: [mappers/mapper_topn.py, reducers/reducer_topn.py, /tmp/hadoop-unjar10771563472056659631/] [] /tmp/streamjob15125982686438547017.jar tmpDir=null
+2026-08-29 18:12:08,678 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at localhost/127.0.0.1:8032
+2026-08-29 18:12:08,856 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at localhost/127.0.0.1:8032
+2026-08-29 18:12:09,218 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/root/.staging/job_1788022068759_0017
+2026-08-29 18:12:09,630 INFO mapred.FileInputFormat: Total input files to process : 2
+2026-08-29 18:12:09,686 INFO mapreduce.JobSubmitter: number of splits:2
+2026-08-29 18:12:09,977 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1788022068759_0017
+2026-08-29 18:12:09,977 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2026-08-29 18:12:10,185 INFO conf.Configuration: resource-types.xml not found
+2026-08-29 18:12:10,186 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2026-08-29 18:12:10,269 INFO impl.YarnClientImpl: Submitted application application_1788022068759_0017
+2026-08-29 18:12:10,316 INFO mapreduce.Job: The url to track the job: http://localhost:8088/proxy/application_1788022068759_0017/
+2026-08-29 18:12:10,318 INFO mapreduce.Job: Running job: job_1788022068759_0017
+2026-08-29 18:12:17,599 INFO mapreduce.Job: Job job_1788022068759_0017 running in uber mode : false
+2026-08-29 18:12:17,601 INFO mapreduce.Job:  map 0% reduce 0%
+2026-08-29 18:12:25,710 INFO mapreduce.Job:  map 100% reduce 0%
+2026-08-29 18:12:30,778 INFO mapreduce.Job:  map 100% reduce 100%
+2026-08-29 18:12:31,802 INFO mapreduce.Job: Job job_1788022068759_0017 completed successfully
+2026-08-29 18:12:31,908 INFO mapreduce.Job: Counters: 54
+	File System Counters
+		FILE: Number of bytes read=2529
+		FILE: Number of bytes written=971204
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=1753528
+		HDFS: Number of bytes written=895
+		HDFS: Number of read operations=11
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Data-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=22944
+		Total time spent by all reduces in occupied slots (ms)=6534
+		Total time spent by all map tasks (ms)=11472
+		Total time spent by all reduce tasks (ms)=3267
+		Total vcore-milliseconds taken by all map tasks=11472
+		Total vcore-milliseconds taken by all reduce tasks=3267
+		Total megabyte-milliseconds taken by all map tasks=11747328
+		Total megabyte-milliseconds taken by all reduce tasks=3345408
+	Map-Reduce Framework
+		Map input records=47937
+		Map output records=40
+		Map output bytes=2443
+		Map output materialized bytes=2535
+		Input split bytes=222
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=2535
+		Reduce input records=40
+		Reduce output records=20
+		Spilled Records=80
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=160
+		CPU time spent (ms)=2520
+		Physical memory (bytes) snapshot=802021376
+		Virtual memory (bytes) snapshot=8211800064
+		Total committed heap usage (bytes)=479199232
+		Peak Map Physical memory (bytes)=306585600
+		Peak Map Virtual memory (bytes)=2736295936
+		Peak Reduce Physical memory (bytes)=204193792
+		Peak Reduce Virtual memory (bytes)=2739343360
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=1753306
+	File Output Format Counters 
+		Bytes Written=895
+2026-08-29 18:12:31,909 INFO streaming.StreamJob: Output directory: /taxi_project/output/top20_routes_revenue
+ELAPSED_SECONDS=25

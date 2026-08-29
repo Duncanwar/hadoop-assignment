@@ -1,0 +1,322 @@
+###############################################################################
+#  commands.txt
+#  Distributed Taxi Trip Analytics Using Apache Hadoop, HDFS and Python MapReduce
+#
+#  Every command below was actually executed to produce the results in the
+#  report. Run them in order from the taxi_project/ directory.
+#  Environment: Apache Hadoop 3.5.0, OpenJDK 21, Python 3.11,
+#               single-node pseudo-distributed cluster (2 vCPU / 8 GB RAM).
+###############################################################################
+
+# =============================================================================
+# 0.  ENVIRONMENT
+# =============================================================================
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+export HADOOP_HOME=/home/claude/hadoop-3.5.0
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+export HADOOP_STREAMING_JAR=$(ls $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar | head -1)
+
+hadoop version
+
+
+# =============================================================================
+# 1.  START THE CLUSTER
+# =============================================================================
+# One-time only: initialise the NameNode metadata directory.
+hdfs namenode -format -force -nonInteractive
+
+# The conventional scripts start every daemon over SSH:
+#     start-dfs.sh
+#     start-yarn.sh
+#     mapred --daemon start historyserver
+# This container has no sshd, so the daemons are started individually.
+# The resulting cluster is identical; only the launch mechanism differs.
+hdfs  --daemon start namenode
+hdfs  --daemon start datanode
+hdfs  --daemon start secondarynamenode
+yarn  --daemon start resourcemanager
+yarn  --daemon start nodemanager
+mapred --daemon start historyserver
+
+# Verify: six JVMs must be listed.
+jps
+
+# Cluster health and capacity
+hdfs dfsadmin -report
+yarn node -list -all
+
+# Web interfaces
+#   NameNode           http://localhost:9870
+#   YARN ResourceMgr   http://localhost:8088/cluster
+#   JobHistory         http://localhost:19888
+
+
+# =============================================================================
+# 2.  PREPARE THE DATASET (Parquet -> CSV)
+# =============================================================================
+# The TLC publishes Parquet. Parquet is columnar and compressed - excellent for
+# storage - but it is not line oriented, and a Hadoop Streaming mapper reads one
+# TEXT LINE from stdin. CSV is therefore produced as the streaming-friendly form.
+python3 scripts/parquet_to_csv.py data/yellow_tripdata_2026-01.parquet data/yellow_tripdata_2026-01.csv
+python3 scripts/parquet_to_csv.py data/yellow_tripdata_2026-02.parquet data/yellow_tripdata_2026-02.csv
+python3 scripts/parquet_to_csv.py data/yellow_tripdata_2026-03.parquet data/yellow_tripdata_2026-03.csv
+
+
+# =============================================================================
+# 3.  HDFS DIRECTORY STRUCTURE
+# =============================================================================
+hdfs dfs -mkdir -p /taxi_project/input/raw
+hdfs dfs -mkdir -p /taxi_project/input/cleaned
+hdfs dfs -mkdir -p /taxi_project/output/hourly
+hdfs dfs -mkdir -p /taxi_project/output/locations
+hdfs dfs -mkdir -p /taxi_project/output/revenue
+hdfs dfs -mkdir -p /taxi_project/output/payment
+hdfs dfs -mkdir -p /taxi_project/output/routes
+hdfs dfs -mkdir -p /taxi_project/output/anomalies
+hdfs dfs -mkdir -p /taxi_project/archive
+
+# NOTE: MapReduce refuses to write into an existing directory (this is a
+# deliberate guard against silently overwriting a previous result), so the
+# output/* placeholders are removed again before the jobs are submitted.
+hdfs dfs -rm -r -skipTrash /taxi_project/output/hourly
+
+
+# =============================================================================
+# 4.  LOAD THE DATA INTO HDFS
+# =============================================================================
+hdfs dfs -put yellow_tripdata_*.csv /taxi_project/input/raw/
+hdfs dfs -put data/taxi_zone_lookup.csv /taxi_project/archive/
+
+# Evidence of distributed storage
+hdfs dfs -ls  -h /taxi_project/input/raw/
+hdfs dfs -du  -h /taxi_project/input/raw/
+hdfs dfs -du -s -h /taxi_project
+hdfs fsck /taxi_project/input/raw -files -blocks -locations
+hdfs dfsadmin -report
+
+
+# =============================================================================
+# 5.  JOB 1 - DATA CLEANING  (validate + deduplicate)
+#     Two-phase job: the mapper validates and emits the WHOLE record as the key;
+#     Shuffle-and-Sort collides identical records; the reducer writes each
+#     distinct record once. Rejections are recorded as Hadoop counters.
+# =============================================================================
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=01-DataCleaning-Validate-and-Deduplicate \
+  -D mapreduce.job.reduces=2 \
+  -input  /taxi_project/input/raw \
+  -output /taxi_project/input/cleaned \
+  -mapper  "python3 mapper_clean.py" \
+  -reducer "python3 reducer_clean.py" \
+  -file mappers/mapper_clean.py \
+  -file reducers/reducer_clean.py
+
+hdfs dfs -ls -h /taxi_project/input/cleaned
+hdfs dfs -cat /taxi_project/input/cleaned/part-00000 | head -3
+
+
+# =============================================================================
+# 6.  JOBS 2-10 - THE NINE REQUIRED ANALYSES
+# =============================================================================
+
+# ---- (a) Hourly taxi demand -------------------------------------------------
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=02-HourlyTaxiDemand -D mapreduce.job.reduces=1 \
+  -input /taxi_project/input/cleaned -output /taxi_project/output/hourly \
+  -mapper   "python3 mapper_hourly.py" \
+  -combiner "python3 reducer_hourly.py" \
+  -reducer  "python3 reducer_hourly.py" \
+  -file mappers/mapper_hourly.py -file reducers/reducer_hourly.py
+
+# ---- (b) Daily demand, weekday vs weekend -----------------------------------
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=03-DailyDemandWeekdayWeekend -D mapreduce.job.reduces=1 \
+  -input /taxi_project/input/cleaned -output /taxi_project/output/daily \
+  -mapper   "python3 mapper_daily.py" \
+  -combiner "python3 reducer_daily.py" \
+  -reducer  "python3 reducer_daily.py" \
+  -file mappers/mapper_daily.py -file reducers/reducer_daily.py
+
+# ---- (c) Pickup-location trip counts ----------------------------------------
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=04-PickupLocationTripCounts -D mapreduce.job.reduces=1 \
+  -input /taxi_project/input/cleaned -output /taxi_project/output/locations \
+  -mapper   "python3 mapper_location.py" \
+  -combiner "python3 reducer_location.py" \
+  -reducer  "python3 reducer_location.py" \
+  -file mappers/mapper_location.py -file reducers/reducer_location.py
+
+# ---- (d) Revenue by pickup zone  == STAGE 1 of the two-stage workflow --------
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=05-RevenueByPickupZone-STAGE1 -D mapreduce.job.reduces=1 \
+  -input /taxi_project/input/cleaned -output /taxi_project/output/revenue \
+  -mapper   "python3 mapper_revenue.py" \
+  -combiner "python3 combiner_sums.py" \
+  -reducer  "python3 reducer_revenue.py" \
+  -file mappers/mapper_revenue.py -file reducers/combiner_sums.py -file reducers/reducer_revenue.py
+
+# ---- (e) Payment-method analysis --------------------------------------------
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=06-PaymentMethodAnalysis -D mapreduce.job.reduces=1 \
+  -input /taxi_project/input/cleaned -output /taxi_project/output/payment \
+  -mapper   "python3 mapper_payment.py" \
+  -combiner "python3 combiner_sums.py" \
+  -reducer  "python3 reducer_payment.py" \
+  -file mappers/mapper_payment.py -file reducers/combiner_sums.py -file reducers/reducer_payment.py
+
+# ---- (f) Distance-based fare analysis ---------------------------------------
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=07-DistanceBasedFareAnalysis -D mapreduce.job.reduces=1 \
+  -input /taxi_project/input/cleaned -output /taxi_project/output/distance \
+  -mapper   "python3 mapper_distance.py" \
+  -combiner "python3 combiner_sums.py" \
+  -reducer  "python3 reducer_distance.py" \
+  -file mappers/mapper_distance.py -file reducers/combiner_sums.py -file reducers/reducer_distance.py
+
+# ---- (g) Busiest pickup -> drop-off routes -----------------------------------
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=08-BusiestPickupDropoffRoutes -D mapreduce.job.reduces=2 \
+  -input /taxi_project/input/cleaned -output /taxi_project/output/routes \
+  -mapper   "python3 mapper_route.py" \
+  -combiner "python3 combiner_sums.py" \
+  -reducer  "python3 reducer_route.py" \
+  -file mappers/mapper_route.py -file reducers/combiner_sums.py -file reducers/reducer_route.py
+
+# ---- (h) Trip-duration analysis ---------------------------------------------
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=09-TripDurationAnalysis -D mapreduce.job.reduces=1 \
+  -input /taxi_project/input/cleaned -output /taxi_project/output/duration \
+  -mapper   "python3 mapper_duration.py" \
+  -combiner "python3 combiner_sums.py" \
+  -reducer  "python3 reducer_duration.py" \
+  -file mappers/mapper_duration.py -file reducers/combiner_sums.py -file reducers/reducer_duration.py
+
+# ---- (i) Anomaly detection -- deliberately runs over the RAW feed ------------
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=10-AnomalyDetection-RawFeed -D mapreduce.job.reduces=1 \
+  -input /taxi_project/input/raw -output /taxi_project/output/anomalies \
+  -mapper   "python3 mapper_anomaly.py" \
+  -combiner "python3 reducer_hourly.py" \
+  -reducer  "python3 reducer_anomaly.py" \
+  -file mappers/mapper_anomaly.py -file reducers/reducer_hourly.py -file reducers/reducer_anomaly.py
+
+
+# =============================================================================
+# 7.  MULTI-STAGE MAPREDUCE (COMPULSORY)
+#     Stage 2 does NOT read the trips. Its -input is the HDFS OUTPUT DIRECTORY
+#     of stage 1 - HDFS is the hand-off medium between the two jobs.
+# =============================================================================
+
+# Show the stage-1 intermediate result that stage 2 will consume
+hdfs dfs -ls -h /taxi_project/output/revenue
+hdfs dfs -cat /taxi_project/output/revenue/part-00000 | head -5
+
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=11-Top10RevenueZones-STAGE2 \
+  -D mapreduce.job.reduces=1 \
+  -input  /taxi_project/output/revenue \
+  -output /taxi_project/output/top10_revenue_zones \
+  -mapper  "python3 mapper_topn.py" \
+  -reducer "python3 reducer_topn.py" \
+  -cmdenv SORT_FIELD=4 -cmdenv TOPN=10 -cmdenv ORDER=desc \
+  -file mappers/mapper_topn.py -file reducers/reducer_topn.py
+
+hdfs dfs -cat /taxi_project/output/top10_revenue_zones/part-00000
+
+# The same Top-N pair is reused for four more rankings.
+# Top 10 / Bottom 10 pickup zones by trip count (analysis c):
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=12-Top10PickupZonesByTrips -D mapreduce.job.reduces=1 \
+  -input /taxi_project/output/locations -output /taxi_project/output/top10_zones_trips \
+  -mapper "python3 mapper_topn.py" -reducer "python3 reducer_topn.py" \
+  -cmdenv SORT_FIELD=1 -cmdenv TOPN=10 -cmdenv ORDER=desc \
+  -file mappers/mapper_topn.py -file reducers/reducer_topn.py
+
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=13-Bottom10PickupZonesByTrips -D mapreduce.job.reduces=1 \
+  -input /taxi_project/output/locations -output /taxi_project/output/bottom10_zones_trips \
+  -mapper "python3 mapper_topn.py" -reducer "python3 reducer_topn.py" \
+  -cmdenv SORT_FIELD=1 -cmdenv TOPN=10 -cmdenv ORDER=asc \
+  -file mappers/mapper_topn.py -file reducers/reducer_topn.py
+
+# Top 20 routes by trip count and by revenue (analysis g):
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=14-Top20RoutesByTripCount -D mapreduce.job.reduces=1 \
+  -input /taxi_project/output/routes -output /taxi_project/output/top20_routes_trips \
+  -mapper "python3 mapper_topn.py" -reducer "python3 reducer_topn.py" \
+  -cmdenv SORT_FIELD=1 -cmdenv TOPN=20 -cmdenv ORDER=desc \
+  -file mappers/mapper_topn.py -file reducers/reducer_topn.py
+
+hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=15-Top20RoutesByRevenue -D mapreduce.job.reduces=1 \
+  -input /taxi_project/output/routes -output /taxi_project/output/top20_routes_revenue \
+  -mapper "python3 mapper_topn.py" -reducer "python3 reducer_topn.py" \
+  -cmdenv SORT_FIELD=2 -cmdenv TOPN=20 -cmdenv ORDER=desc \
+  -file mappers/mapper_topn.py -file reducers/reducer_topn.py
+
+
+# =============================================================================
+# 8.  YARN EVIDENCE
+# =============================================================================
+yarn application -list -appStates ALL
+yarn application -status <application_id>
+yarn logs -applicationId <application_id> | head -100
+# ResourceManager web UI: http://localhost:8088/cluster
+curl -s "http://localhost:8088/ws/v1/cluster/apps" | python3 -m json.tool
+
+
+# =============================================================================
+# 9.  COLLECT RESULTS
+# =============================================================================
+hdfs dfs -ls -R /taxi_project/output
+hdfs dfs -cat /taxi_project/output/hourly/part-*   > output/hourly.tsv
+hdfs dfs -cat /taxi_project/output/daily/part-*    > output/daily.tsv
+hdfs dfs -cat /taxi_project/output/locations/part-* > output/locations.tsv
+hdfs dfs -cat /taxi_project/output/revenue/part-*  > output/revenue.tsv
+hdfs dfs -cat /taxi_project/output/payment/part-*  > output/payment.tsv
+hdfs dfs -cat /taxi_project/output/distance/part-* > output/distance.tsv
+hdfs dfs -cat /taxi_project/output/routes/part-*   > output/routes.tsv
+hdfs dfs -cat /taxi_project/output/duration/part-* > output/duration.tsv
+hdfs dfs -cat /taxi_project/output/anomalies/part-* > output/anomalies.tsv
+# ...and the five Top-N results, likewise. See scripts/fetch_results.sh
+
+
+# =============================================================================
+# 10. PERFORMANCE COMPARISON (COMPULSORY)
+#     The identical analysis - revenue by pickup zone - in ordinary Pandas.
+# =============================================================================
+hdfs dfs -get /taxi_project/input/cleaned local_cleaned
+python3 scripts/pandas_benchmark.py 'local_cleaned/part-*' both
+
+# and the Hadoop side of the comparison, re-timed on its own:
+time hadoop jar $HADOOP_STREAMING_JAR \
+  -D mapreduce.job.name=BENCH-RevenueByPickupZone -D mapreduce.job.reduces=1 \
+  -input /taxi_project/input/cleaned -output /taxi_project/output/revenue_bench \
+  -mapper "python3 mapper_revenue.py" -combiner "python3 combiner_sums.py" \
+  -reducer "python3 reducer_revenue.py" \
+  -file mappers/mapper_revenue.py -file reducers/combiner_sums.py -file reducers/reducer_revenue.py
+
+
+# =============================================================================
+# 11. VISUALISATIONS
+# =============================================================================
+python3 scripts/make_charts.py     # writes charts/*.png from output/*.tsv
+
+
+# =============================================================================
+# 12. ARCHIVE AND SHUT DOWN
+# =============================================================================
+hdfs dfs -cp /taxi_project/output/revenue /taxi_project/archive/revenue_$(date +%Y%m%d)
+hdfs dfs -ls -R /taxi_project/archive
+
+mapred --daemon stop historyserver
+yarn  --daemon stop nodemanager
+yarn  --daemon stop resourcemanager
+hdfs  --daemon stop secondarynamenode
+hdfs  --daemon stop datanode
+hdfs  --daemon stop namenode

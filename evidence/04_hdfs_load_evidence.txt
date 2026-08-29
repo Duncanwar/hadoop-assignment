@@ -1,0 +1,125 @@
+=========== hdfs dfs -ls -h /taxi_project/input/raw/ ===========
+2026-08-29 16:58:15,914 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 3 items
+-rw-r--r--   1 root supergroup    369.4 M 2026-08-29 16:57 /taxi_project/input/raw/yellow_tripdata_2026-01.csv
+-rw-r--r--   1 root supergroup    336.9 M 2026-08-29 16:57 /taxi_project/input/raw/yellow_tripdata_2026-02.csv
+-rw-r--r--   1 root supergroup    393.5 M 2026-08-29 16:58 /taxi_project/input/raw/yellow_tripdata_2026-03.csv
+
+=========== hdfs dfs -du -h /taxi_project/input/raw/ ===========
+2026-08-29 16:58:17,672 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+369.4 M  369.4 M  /taxi_project/input/raw/yellow_tripdata_2026-01.csv
+336.9 M  336.9 M  /taxi_project/input/raw/yellow_tripdata_2026-02.csv
+393.5 M  393.5 M  /taxi_project/input/raw/yellow_tripdata_2026-03.csv
+
+=========== hdfs dfs -du -s -h /taxi_project ===========
+2026-08-29 16:58:19,471 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+1.1 G  1.1 G  /taxi_project
+
+=========== BLOCK LAYOUT: hdfs fsck /taxi_project/input/raw -files -blocks ===========
+2026-08-29 16:58:21,205 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Connecting to namenode via http://localhost:9870/fsck?ugi=root&files=1&blocks=1&path=%2Ftaxi_project%2Finput%2Fraw
+FSCK started by root (auth:SIMPLE) from /127.0.0.1 for path /taxi_project/input/raw at Sat Aug 29 16:58:22 UTC 2026
+
+/taxi_project/input/raw <dir>
+/taxi_project/input/raw/yellow_tripdata_2026-01.csv 387348047 bytes, replicated: replication=1, 3 block(s):  OK
+0. BP-1804162068-127.0.0.1-1788022046402:blk_1073741825_1001 len=134217728 Live_repl=1
+1. BP-1804162068-127.0.0.1-1788022046402:blk_1073741826_1002 len=134217728 Live_repl=1
+2. BP-1804162068-127.0.0.1-1788022046402:blk_1073741827_1003 len=118912591 Live_repl=1
+
+/taxi_project/input/raw/yellow_tripdata_2026-02.csv 353254734 bytes, replicated: replication=1, 3 block(s):  OK
+0. BP-1804162068-127.0.0.1-1788022046402:blk_1073741828_1004 len=134217728 Live_repl=1
+1. BP-1804162068-127.0.0.1-1788022046402:blk_1073741829_1005 len=134217728 Live_repl=1
+2. BP-1804162068-127.0.0.1-1788022046402:blk_1073741830_1006 len=84819278 Live_repl=1
+
+/taxi_project/input/raw/yellow_tripdata_2026-03.csv 412638511 bytes, replicated: replication=1, 4 block(s):  OK
+0. BP-1804162068-127.0.0.1-1788022046402:blk_1073741831_1007 len=134217728 Live_repl=1
+1. BP-1804162068-127.0.0.1-1788022046402:blk_1073741832_1008 len=134217728 Live_repl=1
+2. BP-1804162068-127.0.0.1-1788022046402:blk_1073741833_1009 len=134217728 Live_repl=1
+3. BP-1804162068-127.0.0.1-1788022046402:blk_1073741834_1010 len=9985327 Live_repl=1
+
+
+Status: HEALTHY
+ Number of data-nodes:	1
+ Number of racks:		1
+ Total dirs:			1
+ Total symlinks:		0
+
+Replicated Blocks:
+ Total size:	1153241292 B
+ Total files:	3
+ Total blocks (validated):	10 (avg. block size 115324129 B)
+ Minimally replicated blocks:	10 (100.0 %)
+ Over-replicated blocks:	0 (0.0 %)
+ Under-replicated blocks:	0 (0.0 %)
+ Mis-replicated blocks:		0 (0.0 %)
+ Default replication factor:	1
+ Average block replication:	1.0
+ Missing blocks:		0
+ Corrupt blocks:		0
+ Missing replicas:		0 (0.0 %)
+ Blocks queued for replication:	0
+
+Erasure Coded Block Groups:
+ Total size:	0 B
+ Total files:	0
+ Total block groups (validated):	0
+ Minimally erasure-coded block groups:	0
+ Over-erasure-coded block groups:	0
+ Under-erasure-coded block groups:	0
+ Unsatisfactory placement block groups:	0
+ Average block group size:	0.0
+ Missing block groups:		0
+ Corrupt block groups:		0
+ Missing internal blocks:	0
+ Blocks queued for replication:	0
+FSCK ended at Sat Aug 29 16:58:22 UTC 2026 in 23 milliseconds
+
+
+The filesystem under path '/taxi_project/input/raw' is HEALTHY
+
+=========== hdfs dfsadmin -report (after load) ===========
+2026-08-29 16:58:23,277 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Configured Capacity: 270553174016 (251.97 GB)
+Present Capacity: 28918771712 (26.93 GB)
+DFS Remaining: 27756396544 (25.85 GB)
+DFS Used: 1162375168 (1.08 GB)
+DFS Used%: 4.02%
+Replicated Blocks:
+	Under replicated blocks: 0
+	Blocks with corrupt replicas: 0
+	Missing blocks: 0
+	Missing blocks (with replication factor 1): 0
+	Badly Distributed Blocks: 0
+	Low redundancy blocks with highest priority to recover: 0
+	Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+	Low redundancy block groups: 0
+	Block groups with corrupt internal blocks: 0
+	Missing block groups: 0
+	Badly Distributed Blocks: 0
+	Low redundancy blocks with highest priority to recover: 0
+	Pending deletion blocks: 0
+
+-------------------------------------------------
+Live datanodes (1):
+
+Name: 127.0.0.1:9866 (localhost)
+Hostname: localhost
+Decommission Status : Normal
+Configured Capacity: 270553174016 (251.97 GB)
+DFS Used: 1162375168 (1.08 GB)
+Non DFS Used: 15983730688 (14.89 GB)
+DFS Remaining: 27756396544 (25.85 GB)
+DFS Used%: 0.43%
+DFS Remaining%: 10.26%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 0
+Last contact: Sat Aug 29 16:58:21 UTC 2026
+Last Block Report: Sat Aug 29 16:47:36 UTC 2026
+Num of Blocks: 11
+
+

@@ -1,0 +1,53 @@
+Loading cleaned dataset with Pandas (independent of the MapReduce code)...
+  10493916 records loaded
+
+1. Record count
+  [PASS] total cleaned records                      mapreduce=10493916           pandas=10493916
+
+2. Hourly demand (all 24 keys)
+  [PASS] all 24 hourly counts match exactly
+
+3. Daily demand (all 7 keys)
+  [PASS] all 7 day-of-week counts match exactly
+
+4. Revenue
+  [PASS] total revenue (USD)                        mapreduce=316116721.15       pandas=316116721.15
+  [PASS] total fare (USD)                           mapreduce=224576418.84       pandas=224576418.84
+  [PASS] total tips (USD)                           mapreduce=29020953.85        pandas=29020953.85
+  [PASS] distinct pickup zones                      mapreduce=262                pandas=262
+
+5. Top-N ranking (stage-2 output vs Pandas nlargest)
+  [PASS] top-10 revenue zones, same zones in the same order
+        mapreduce: [132, 138, 161, 237, 236, 230, 186, 162, 79, 68]
+        pandas   : [132, 138, 161, 237, 236, 230, 186, 162, 79, 68]
+  [PASS] top-10 zones by trips, same zones in the same order
+
+6. Routes
+  [PASS] distinct routes                            mapreduce=47937              pandas=47937
+  [PASS] trips summed over all routes               mapreduce=10493916           pandas=10493916
+  [PASS] top-5 routes by trips identical: ['237->236', '236->237', '236->236', '237->237', '161->237']
+
+7. Payment types
+  [PASS] trips summed over payment types            mapreduce=10493916           pandas=10493916
+  [PASS] revenue summed over payment types          mapreduce=316116721.15       pandas=316116721.15
+  [PASS]   payment_type 0 revenue                   mapreduce=91838494.62        pandas=91838494.62
+  [PASS]   payment_type 1 revenue                   mapreduce=199656180.14       pandas=199656180.14
+  [PASS]   payment_type 2 revenue                   mapreduce=22234860.42        pandas=22234860.42
+  [PASS]   payment_type 3 revenue                   mapreduce=575507.96          pandas=575507.96
+  [PASS]   payment_type 4 revenue                   mapreduce=1811678.01         pandas=1811678.01
+
+8. Distance and duration bands
+  [PASS] trips summed over distance bands           mapreduce=10493916           pandas=10493916
+  [PASS] trips summed over duration bands           mapreduce=10493916           pandas=10493916
+  [PASS] revenue summed over distance bands         mapreduce=316116721.15       pandas=316116721.15
+
+9. Cross-analysis consistency (independent of Pandas)
+  [PASS] daily total equals hourly total            mapreduce=10493916           pandas=10493916
+  [PASS] locations total equals hourly total        mapreduce=10493916           pandas=10493916
+  [PASS] distance total equals hourly total         mapreduce=10493916           pandas=10493916
+  [PASS] duration total equals hourly total         mapreduce=10493916           pandas=10493916
+  [PASS] payment total equals hourly total          mapreduce=10493916           pandas=10493916
+
+==================================================================
+VERIFICATION PASSED - every MapReduce result reproduced independently
+==================================================================
