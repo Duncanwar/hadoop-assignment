@@ -1,18 +1,13 @@
-# Distributed Taxi Trip Analytics — Apache Hadoop, HDFS and Python MapReduce
+# Hadoop Assignment
 
 Big Data Essentials — Individual Practical Case Study
 NYC TLC Yellow Taxi trip records, January–March 2026.
-
-**11,077,209 raw trip records / 1.1 GB of CSV, processed on a live single-node
-pseudo-distributed Apache Hadoop 3.5.0 cluster.** Every number in the report is
-the output of a MapReduce job that actually ran; every job log, counter dump and
-YARN application record is in `evidence/`.
 
 ---
 
 ## 1. Environment assumptions
 
-| Component | Version / setting |
+| Component | Version|
 |---|---|
 | Apache Hadoop | 3.5.0 (binary distribution) |
 | Java | OpenJDK 21 (`JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64`) |
@@ -23,49 +18,31 @@ YARN application record is in `evidence/`.
 | HDFS block size | 128 MB |
 | Python libraries | `pyarrow` and `pandas` for the Parquet→CSV conversion and the benchmark only. **No mapper or reducer imports a third-party library** — they use only the standard library, so they run unchanged on any cluster node. |
 
-Two deviations from a textbook install, both documented rather than hidden:
-
-1. **The daemons are started individually** (`hdfs --daemon start namenode`, …)
-   instead of with `start-dfs.sh` / `start-yarn.sh`, because the container has
-   no `sshd` and those scripts drive the daemons over SSH. The running cluster
-   is identical; only the launch mechanism differs.
-2. **`yarn.nodemanager.disk-health-checker.max-disk-utilization-per-disk-percentage`
-   is raised to 99.** The host presents a 252 GB device of which ~26 GB is
-   writable, so YARN's default 90 % check reads the node as full and flaps it
-   to `UNHEALTHY` mid-job. An absolute floor
-   (`min-free-space-per-disk-mb=2048`) is set instead. This is a property of
-   the sandbox, not of Hadoop.
-
-Hadoop's native libraries are not present, so every job logs
-`WARN util.NativeCodeLoader: Unable to load native-hadoop library`. That is a
-performance note (Java implementations of CRC and compression are used), not an
-error.
-
 ---
 
 ## 2. Project layout
 
 ```
 taxi_project/
-├── README.md                  this file
-├── commands.txt               every HDFS and Hadoop Streaming command, in order
-├── data/                      source Parquet + the TLC zone lookup table
-├── mappers/                   11 mapper programs
-│   ├── mapper_clean.py            validation + duplicate key emission
-│   ├── mapper_hourly.py           (a) hourly demand
-│   ├── mapper_daily.py            (b) day-of-week demand
-│   ├── mapper_location.py         (c) pickup-zone trip counts
-│   ├── mapper_revenue.py          (d) revenue by pickup zone  [STAGE 1]
-│   ├── mapper_payment.py          (e) payment-method behaviour
-│   ├── mapper_distance.py         (f) distance bands
-│   ├── mapper_route.py            (g) pickup→drop-off routes
-│   ├── mapper_duration.py         (h) trip-duration bands
-│   ├── mapper_anomaly.py          (i) anomaly detection (runs on the RAW feed)
-│   └── mapper_topn.py             generic Top-N mapper  [STAGE 2]
-├── reducers/                  11 reducer/combiner programs
-│   ├── reducer_clean.py           deduplication
-│   ├── combiner_sums.py           ONE generic combiner shared by five analyses
-│   ├── reducer_hourly.py          also used as its own combiner
+├── README.md                  
+├── commands.txt               
+├── data/                      
+├── mappers/                   
+│   ├── mapper_clean.py            
+│   ├── mapper_hourly.py           
+│   ├── mapper_daily.py            
+│   ├── mapper_location.py         
+│   ├── mapper_revenue.py          
+│   ├── mapper_payment.py         
+│   ├── mapper_distance.py         
+│   ├── mapper_route.py            
+│   ├── mapper_duration.py        
+│   ├── mapper_anomaly.py         
+│   └── mapper_topn.py             
+├── reducers/                  
+│   ├── reducer_clean.py          
+│   ├── combiner_sums.py           
+│   ├── reducer_hourly.py          
 │   ├── reducer_daily.py
 │   ├── reducer_location.py
 │   ├── reducer_revenue.py
@@ -74,18 +51,18 @@ taxi_project/
 │   ├── reducer_route.py
 │   ├── reducer_duration.py
 │   ├── reducer_anomaly.py
-│   └── reducer_topn.py            global Top-N  [STAGE 2]
-├── scripts/                   orchestration and non-MapReduce helpers
-│   ├── parquet_to_csv.py          Parquet → line-oriented CSV
-│   ├── run_all_jobs.sh            submits all 15 jobs in order
-│   ├── fetch_results.sh           pulls every result out of HDFS
-│   ├── pandas_benchmark.py        the single-machine comparison
-│   ├── make_charts.py             the seven required figures
-│   └── zones.py                   LocationID → zone name
-├── output/                    reducer output pulled out of HDFS (*.tsv)
-├── charts/                    the seven required figures (PNG)
-├── evidence/                  job logs, counters, HDFS and YARN evidence
-└── docs/                      the final report
+│   └── reducer_topn.py            
+├── scripts/                  
+│   ├── parquet_to_csv.py          
+│   ├── run_all_jobs.sh            
+│   ├── fetch_results.sh           
+│   ├── pandas_benchmark.py        
+│   ├── make_charts.py            
+│   └── zones.py                   
+├── output/                    
+├── charts/                    
+├── evidence/                  
+└── docs/                      
 ```
 
 ---
@@ -94,7 +71,7 @@ taxi_project/
 
 ```bash
 # 0. environment
-source hadoop_env.sh              # or paste section 0 of commands.txt
+source hadoop_env.sh             
 
 # 1. start the cluster and confirm six JVMs
 hdfs --daemon start namenode  &&  hdfs --daemon start datanode
@@ -110,7 +87,7 @@ for m in 01 02 03; do
 done
 
 # 3. create the HDFS tree and load the data
-bash -c 'sed -n "/^# 3\./,/^# 5\./p" commands.txt'   # or run the commands directly
+bash -c 'sed -n "/^# 3\./,/^# 5\./p" commands.txt'  
 hdfs dfs -mkdir -p /taxi_project/input/raw
 hdfs dfs -put data/yellow_tripdata_2026-*.csv /taxi_project/input/raw/
 
@@ -160,23 +137,7 @@ rows by design.
 
 ---
 
-## 5. A note on the data cleaning
-
-The first cleaning run rejected 2,823,332 records — 25.5 % of the feed —
-because `passenger_count` was blank or zero. That rule was **wrong** and was
-changed. `passenger_count` is a driver-entered field that a quarter of the 2026
-feed leaves empty, and it is not an input to any of the nine required analyses;
-deleting a quarter of the trips to enforce it would have biased every demand,
-revenue and route figure in the report. Those records are now flagged
-(`PASSENGER_FLAGGED`) and kept, with the field normalised to an explicit
-"unknown". Records are only rejected when the defect makes them unusable for
-the analysis at hand — a non-positive distance, a non-positive duration, a
-negative fare. Section 6 of the report gives the full rule set with counts and
-percentages.
-
----
-
-## 6. Deliverables
+## 5. Deliverables
 
 | File | Contents |
 |---|---|
@@ -189,23 +150,6 @@ percentages.
 
 ---
 
-## 7. Verification
-
-`scripts/verify_results.py` re-computes every aggregate independently with Pandas,
-directly from the cleaned dataset, and compares it against the reducer output. It
-shares no code with any mapper or reducer. All checks pass — see
-`evidence/E7_verification.txt` and Section 9.10 of the report:
-
-```
-total cleaned records ........ 10,493,916  (mapreduce == pandas)
-all 24 hourly counts ......... exact match
-all 7 day-of-week counts ..... exact match
-total revenue ................ $316,116,721.15  (mapreduce == pandas, to the cent)
-distinct pickup zones ........ 262
-distinct routes .............. 47,937
-top-10 rankings .............. same zones, same order as pandas nlargest
-five independent partitions .. each sums to exactly 10,493,916
-```
 
 Run it with:
 
